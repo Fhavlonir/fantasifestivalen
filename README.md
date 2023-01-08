@@ -1,16 +1,13 @@
-# fantamello
+# Fantamello
 
-A new Flutter project.
+Fantasy football for Melodifestivalen!
 
-## Getting Started
+Inspired by the Italian project [FantaSanremo](https://fantasanremo.com/)
 
-This project is a starting point for a Flutter application.
+Built with Flutter, Hosted by Supabase (DB), Github Pages (Webapp) and Wikimedia Commons (Assets)
 
-A few resources to get you started if this is your first Flutter project:
+## Running and Building
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Clone the repository
+- Download and install Flutter
+- Compile the project!
