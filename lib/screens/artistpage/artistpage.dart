@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../app.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ArtistPage extends StatelessWidget {
   final int id;
@@ -13,28 +14,45 @@ class ArtistPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return (Consumer<ArtistList>(builder: (context, artists, child) {
       Artist _artist = artists.getArtist(id);
-      var _cost = _artist.cost;
-      var _heat = _artist.heat;
-      var _number = _artist.number;
+      var _cost = _artist.getCost();
+      var _heat = _artist.getHeat();
+      var _number = _artist.getNumber();
       return Scaffold(
         appBar: AppBar(
-          title: Text(_artist.name),
+          title: Text(_artist.getName()),
         ),
         body: ListView(
           shrinkWrap: true,
           children: [
-            Hero(tag: id, child: Image.asset(_artist.getImg())),
+            Hero(tag: id,
+              child: Container(
+                constraints: const BoxConstraints(maxHeight: 500),
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: CachedNetworkImageProvider(_artist.getImgUrl())
+                  ),
+                ),
+              ),
+            ),
             Container(
               padding: const EdgeInsets.all(10.0),
               child: Text(
-                _artist.name,
+                _artist.getImgCred(),
+                style: Theme.of(context).textTheme.caption,
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(10.0),
+              child: Text(
+                _artist.getName(),
                 style: Theme.of(context).textTheme.headline3,
               ),
             ),
             Container(
               padding: const EdgeInsets.all(10.0),
               child: Text(
-                _artist.song,
+                _artist.getSong(),
                 style: Theme.of(context).textTheme.headline4,
               ),
             ),
@@ -65,7 +83,7 @@ class ArtistPage extends StatelessWidget {
             Container(
               padding:
                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
-              child: Text(_artist.desc),
+              child: Text(_artist.getDesc()),
             ),
           ],
         ),

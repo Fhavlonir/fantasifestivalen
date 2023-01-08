@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../artistpage/artistpage.dart';
 import '../../app.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ArtistOption extends StatelessWidget {
   final int id;
@@ -11,8 +12,8 @@ class ArtistOption extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<ArtistList>(builder: (context, artists, child) {
-      var artist = artists.getArtist(id);
-      var _cost = artist.cost;
+      var _artist = artists.getArtist(id);
+      var _cost = _artist.getCost();
       return SizedBox(
         height: 300,
         child: TextButton(
@@ -22,9 +23,10 @@ class ArtistOption extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                      fit: BoxFit.cover,
-                      alignment: const FractionalOffset(0.5, 0.1),
-                      image: AssetImage(artist.getImg())),
+                    fit: BoxFit.cover,
+                    alignment: const FractionalOffset(0.5, 0.1),
+                    image: CachedNetworkImageProvider(_artist.getImgUrl()),
+                  ),
                 ),
                 alignment: Alignment.bottomLeft,
                 child: Container(
@@ -40,7 +42,7 @@ class ArtistOption extends StatelessWidget {
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(artist.name,
+                        Text(_artist.getName(),
                             style: Theme.of(context).textTheme.headline6),
                         Text(_cost.toString(),
                             style: Theme.of(context).textTheme.headline4)

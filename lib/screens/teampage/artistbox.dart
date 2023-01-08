@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../artistpicker/artistpicker.dart';
 import '../artistpage/artistpage.dart';
 import '../../app.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ArtistBox extends StatelessWidget {
   final int _position;
@@ -15,15 +16,15 @@ class ArtistBox extends StatelessWidget {
       return Consumer<Team>(
         builder: (context, team, child) {
           int id = team.getArtistId(_position);
-          Artist artist = artists.getArtist(id);
-          var cost = artist.cost;
+          Artist _artist = artists.getArtist(id);
+          int _cost = _artist.getCost();
           return TextButton(
               child: SizedBox(
                 width: 150,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(artist.name),
+                    Text(_artist.getName()),
                     Container(
                       constraints:
                           const BoxConstraints(minHeight: 100, minWidth: 100),
@@ -47,17 +48,23 @@ class ArtistBox extends StatelessWidget {
                               ),
                             ),
                           ),
-                          if (id != 0)
-                            Image.asset(
-                              artist.getThumb(),
-                              width: 100.0,
-                              height: 100.0,
+                          Hero(tag: id,
+                            child: Container(
+                              constraints: const BoxConstraints(
+                                  minHeight: 100, minWidth: 100, maxHeight: 100, maxWidth: 100),
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: CachedNetworkImageProvider(_artist.getImgUrl()),
+                                ),
+                              ),
                             ),
+                          ),
                         ],
                       ),
                     ),
                     Text(
-                      'Kostnad: $cost',
+                      'Kostnad: $_cost',
                       style: Theme.of(context).textTheme.caption,
                     )
                   ],

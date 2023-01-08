@@ -7,21 +7,31 @@ import 'package:provider/provider.dart';
 import 'dart:collection';
 
 class Artist {
-  Artist(this.name, this.song, this.cost, this.heat, this.number, this._imgpath,
-      this.desc);
-  final String name;
-  final String song;
-  int cost;
-  int heat;
-  int number;
+  Artist(this._name, this._song, this._cost, this._heat, this._number, this._imgpath,
+      this._desc, this._imgcred, this._imgurl);
+  final String _name;
+  final String _song;
+  final int _cost;
+  final int _heat;
+  final int _number;
+  final String _imgcred;
+  final String _imgurl;
   final String _imgpath;
+  final String _desc;
+  getName() => _name;
+  getSong() => _song;
+  getCost() => _cost;
+  getHeat() => _heat;
+  getNumber() => _number;
+  getImgCred() => _imgcred;
+  getImgUrl() => _imgurl;
   getImg() => _imgpath + ".jpg";
-  getThumb() => _imgpath + "_thumb.jpg";
-  String desc;
+  //getThumb() => _imgpath + "_thumb.jpg";
+  getDesc() => _desc;
 }
 
 class ArtistList extends ChangeNotifier {
-  final nullArtist = Artist('Välj Artist', '', 0, 0, 0, "", "");
+  final nullArtist = Artist('Välj Artist', '', 0, 0, 0, "", "", "", "");
   static const dummy =
       'Träutensilierna i ett tryckeri äro ingalunda en oviktig faktor, för trevnadens, ordningens och ekonomiens upprätthållande, och dock är det icke sällan som sorgliga erfarenheter göras på grund af det oförstånd med hvilket kaster, formbräden och regaler tillverkas och försäljas Kaster som äro dåligt hopkomna och af otillräckligt.\n\nTräutensilierna i ett tryckeri äro ingalunda en oviktig faktor, för trevnadens, ordningens och ekonomiens upprätthållande, och dock är det icke sällan som sorgliga erfarenheter göras på grund af det oförstånd med hvilket kaster, formbräden och regaler tillverkas och försäljas Kaster som äro dåligt hopkomna och af otillräckligt.\n\nTräutensilierna i ett tryckeri äro ingalunda en oviktig faktor, för trevnadens, ordningens och ekonomiens upprätthållande, och dock är det icke sällan som sorgliga erfarenheter göras på grund af det oförstånd med hvilket kaster, formbräden och regaler tillverkas och försäljas Kaster som äro dåligt hopkomna och af otillräckligt.';
   var artists = <int, Artist>{};
@@ -43,6 +53,79 @@ class ArtistList extends ChangeNotifier {
 
   void updateArtist(int id, Artist artist) {
     artists[id] = artist;
+    notifyListeners();
+  }
+}
+
+class Rule {
+  Rule(this._name, this._desc, this._category, this._reward);
+  final String _name;
+  final String _desc;
+  final String _category;
+  final int _reward;
+  
+  getName() => _name;
+  getDesc() => _desc;
+  getCategory() => _category;
+  getReward() => _reward;
+}
+
+class RuleList extends ChangeNotifier {
+  final nullRule = Rule('', '', '', 0);
+  var rules = <int, Rule>{};
+  Rule getRule(int id) {
+    return rules[id] ?? nullRule;
+  }
+
+  void setRule(int id, Rule rule) {
+    rules[id] = rule;
+  }
+
+  List<Rule> getAllRules() {
+    List<Rule> allRules = [];
+    for (int i = 1; i <= rules.length; i++) {
+      allRules.add(rules[i] ?? nullRule);
+    }
+    return allRules;
+  }
+
+  void updateRule(int id, Rule rule) {
+    rules[id] = rule;
+    notifyListeners();
+  }
+}
+
+class Event {
+  Event(this._artist, this._rule, this._comment);
+  final int _artist;
+  final int _rule;
+  var _comment;
+  getArtist() => _artist;
+  getRule() => _rule;
+  getComment() => _comment;
+}
+
+class EventList extends ChangeNotifier {
+  final nullEvent = Event(0, 0, '');
+  var events = <int, Event>{};
+  Event getEvent(int id) {
+    return events[id] ?? nullEvent;
+  }
+
+  void setEvent(int id, Event event) {
+    events[id] = event;
+  }
+
+  List<Event> getAllEvents() {
+    List<Event> allEvents = [];
+    for (int i = 1; i <= events.length; i++) {
+      allEvents.add(events[i] ?? nullEvent);
+    }
+    return allEvents;
+  }
+
+  void updateEvent(int id, Event event) {
+    events[id] = event;
     notifyListeners();
   }
 }
@@ -84,6 +167,12 @@ class Fantamello extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+          create: (context) => RuleList(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => EventList(),
+        ),
         ChangeNotifierProvider(
           create: (context) => ArtistList(),
         ),
