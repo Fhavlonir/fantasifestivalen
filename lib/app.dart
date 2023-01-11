@@ -1,10 +1,12 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
+
 import 'screens/teampage/teampage.dart';
 import 'screens/login/account_page.dart';
 import 'screens/login/login.dart';
 import 'screens/login/splash_page.dart';
 import 'package:provider/provider.dart';
-import 'dart:collection';
 
 class Artist {
   Artist(this._name, this._song, this._cost, this._heat, this._number, this._imgpath,
@@ -81,12 +83,13 @@ class RuleList extends ChangeNotifier {
     rules[id] = rule;
   }
 
-  List<Rule> getAllRules() {
-    List<Rule> allRules = [];
-    for (int i = 1; i <= rules.length; i++) {
-      allRules.add(rules[i] ?? nullRule);
-    }
-    return allRules;
+  Iterable<Rule> getAllRules() {
+    //List<Rule> allRules = [];
+    //for (int i = 1; i <= rules.length; i++) {
+    //  allRules.add(rules[i] ?? nullRule);
+    //}
+    //return allRules;
+    return rules.values;
   }
 
   void updateRule(int id, Rule rule) {

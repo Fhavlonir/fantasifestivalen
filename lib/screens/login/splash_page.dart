@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../components/auth_state.dart';
+
+import '../../utils/constants.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -8,11 +9,28 @@ class SplashPage extends StatefulWidget {
   _SplashPageState createState() => _SplashPageState();
 }
 
-class _SplashPageState extends AuthState<SplashPage> {
+class _SplashPageState extends State<SplashPage> {
+  bool _redirectCalled = false;
+  
   @override
-  void initState() {
-    recoverSupabaseSession();
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _redirect();
+  }
+  
+  Future<void> _redirect() async{
+    await Future.delayed(Duration.zero);
+    if (_redirectCalled || !mounted) {
+      return;
+    }
+
+    _redirectCalled = true;
+    final session = supabase.auth.currentSession;
+    if (session != null) {
+      Navigator.of(context).pushReplacementNamed('/teampage');
+    } else {
+      Navigator.of(context).pushReplacementNamed('/login');
+    }
   }
 
   @override

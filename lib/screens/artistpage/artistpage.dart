@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../app.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+
+import '../../app.dart';
 
 class ArtistPage extends StatelessWidget {
   final int id;
@@ -34,6 +35,7 @@ class ArtistPage extends StatelessWidget {
                   ),
                 ),
               ),
+              
             ),
             Container(
               padding: const EdgeInsets.all(10.0),

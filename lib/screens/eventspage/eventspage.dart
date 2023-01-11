@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../app.dart';
-//import 'package:cached_network_image/cached_network_image.dart';
 
 class EventItem extends StatelessWidget {
   final ArtistList _artists;
@@ -15,22 +15,34 @@ class EventItem extends StatelessWidget {
       int _rule = _event.getRule();
       return Container(
         constraints: BoxConstraints(minHeight: 100),
-        child: Column(
-          children: [ Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-                width: 480,
-                child: Text(_artists.getArtist(_event.getArtist()).getName(),
-                overflow: TextOverflow.clip, 
-                style: Theme.of(context).textTheme.headline4),
-            ),
-            Text(_rules.getRule(_event.getRule()).getName(),
-                style: Theme.of(context).textTheme.headline5),
-            ]),
+        margin: EdgeInsets.all(20),
+        decoration: BoxDecoration( 
+          color: Theme.of(context).splashColor,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Container(
+        margin: EdgeInsets.all(16),
+          child: Column( children: [ 
+            Row(
+            children: [
+              Container(
+                  width: 360,
+                  child: Text(_artists.getArtist(_event.getArtist()).getName(),
+                    overflow: TextOverflow.clip, 
+                    style: Theme.of(context).textTheme.headline5),
+              ),
+              Container(
+                  width: 240,
+                  child: Text(_rules.getRule(_event.getRule()).getName(),
+                    style: Theme.of(context).textTheme.headline6),
+              ),
+              Text(_rules.getRule(_event.getRule()).getReward().toString(),
+                  style: Theme.of(context).textTheme.headline5),
+              ]),
             Text(_event.getComment() ?? '',
-                style: Theme.of(context).textTheme.headline6),
+                style: Theme.of(context).textTheme.caption),
           ]),
+        ),
       );
     });
   }
@@ -52,8 +64,30 @@ class EventsPage extends StatelessWidget {
           title: Text('Händelser'),
         ),
         body: ListView(
-          shrinkWrap: true,
-          children: items,
+          children: [
+            Container(
+              decoration: BoxDecoration( color: Theme.of(context).splashColor,),
+              child: Container(
+                margin: EdgeInsets.only(left: 36, right: 36, top: 36, bottom: 16),
+                child: Row(
+                  children:[
+                    Container(
+                      width: 360,
+                      child: Text('Artist',
+                        style: Theme.of(context).textTheme.headline5,),
+                    ),
+                    Container(
+                      width: 240,
+                      child: Text('Regel', 
+                        style: Theme.of(context).textTheme.headline5,),
+                    ),
+                    Text('Poäng',
+                      style: Theme.of(context).textTheme.headline5,), 
+                  ],
+                ),
+              )
+            )
+          ]..addAll(items)
         ),
       );
   }

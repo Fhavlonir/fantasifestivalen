@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
 import '../artistpicker/artistpicker.dart';
 import '../artistpage/artistpage.dart';
 import '../../app.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class ArtistBox extends StatelessWidget {
   final int _position;
@@ -48,8 +49,9 @@ class ArtistBox extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Hero(tag: id,
-                            child: Container(
+                          //Hero(tag: id,
+                            //child: 
+                            Container(
                               constraints: const BoxConstraints(
                                   minHeight: 100, minWidth: 100, maxHeight: 100, maxWidth: 100),
                               decoration: BoxDecoration(
@@ -59,7 +61,7 @@ class ArtistBox extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          ),
+                          //),
                         ],
                       ),
                     ),

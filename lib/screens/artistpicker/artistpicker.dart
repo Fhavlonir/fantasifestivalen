@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
 import '../artistpage/artistpage.dart';
 import '../../app.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class ArtistOption extends StatelessWidget {
   final int id;
@@ -35,18 +36,20 @@ class ArtistOption extends StatelessWidget {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                        Colors.white.withAlpha(0),
-                        Colors.white38,
-                        Colors.white38
+                            Colors.white.withAlpha(0),
+                            Colors.white38,
+                            Colors.white38
                       ])),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(_artist.getName(),
-                            style: Theme.of(context).textTheme.headline6),
-                        Text(_cost.toString(),
-                            style: Theme.of(context).textTheme.headline4)
-                      ]),
+                  child: Container(
+                    margin: EdgeInsets.all(10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(_artist.getName(),
+                              style: Theme.of(context).textTheme.headline6),
+                          Text(_cost.toString(),
+                              style: Theme.of(context).textTheme.headline4)
+                  ])),
                 ),
               ),
             ),
@@ -77,11 +80,21 @@ class ArtistPicker extends StatelessWidget {
         appBar: AppBar(
           title: const Text("Fantamello"),
         ),
-        body: ListView(
-          children:
-              List<int>.generate(28, (index) => index + 1, growable: false)
-                  .map((id) => ArtistOption(position, id))
-                  .toList(),
+        body: Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                constraints: BoxConstraints(maxWidth:600),
+                child: ListView(
+                    children:
+                        List<int>.generate(28, (index) => index + 1, growable: false)
+                            .map((id) => ArtistOption(position, id))
+                            .toList(),
+                  )
+              ),
+            ],
+          ),
         ),
       );
     });
