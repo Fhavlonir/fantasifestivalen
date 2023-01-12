@@ -24,18 +24,16 @@ class _LoginPageState extends State<LoginPage> {
       _isLoading = true;
     });
     try {
-      if (_emailController.text == 'test@fantamello.se') {
-        await supabase.auth.signInWithPassword(
-          email: _emailController.text,
-          password: 'testtest',
-          //emailRedirectTo:
-          //  kIsWeb ? null : 'io.supabase.flutterquickstart://login-callback/',
-        );
-        if (mounted) {
-          context.showSnackBar(message: 'Loggar in på testkontot...');
-          _emailController.clear();
-        }
-      } else {
+      //if (_emailController.text == 'test@fantamello.se') {
+      //  await supabase.auth.signInWithPassword(
+      //    email: _emailController.text,
+      //    password: 'testtest',
+      //  );
+      //  if (mounted) {
+      //    context.showSnackBar(message: 'Loggar in på testkontot...');
+      //    _emailController.clear();
+      //  }
+      //} else {
         await supabase.auth.signInWithOtp(
           email: _emailController.text,
           emailRedirectTo:
@@ -45,11 +43,11 @@ class _LoginPageState extends State<LoginPage> {
           context.showSnackBar(message: 'Kolla mailen för inloggningslänk!');
           _emailController.clear();
         }
-      }
+      //}
     } on AuthException catch (error) {
       context.showErrorSnackBar(message: error.message);
     } catch (error) {
-      context.showErrorSnackBar(message: 'Oväntat fel upstod');
+      context.showErrorSnackBar(message: 'Ett oväntat fel uppstod');
     }
 
     setState(() {
