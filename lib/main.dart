@@ -9,6 +9,6 @@ void main() async {
       url: 'https://tquhibsbxumaqfttipmr.supabase.co',
       anonKey:
           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0NDE3NzU1MSwiZXhwIjoxOTU5NzUzNTUxfQ.UUa0Zoa9TwkX4b8yhaKk5KQhKXE9dUire8WdI_MKRYs',
-      );//debug: true);
+      debug: true);
   runApp(const Fantamello());
 }
