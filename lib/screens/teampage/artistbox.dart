@@ -22,10 +22,19 @@ class ArtistBox extends StatelessWidget {
           return TextButton(
               child: SizedBox(
                 width: 150,
+                height: 150,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(_artist.getName()),
+                    SizedBox(
+                      height: 32,
+                      child: Column(children: [
+                        Expanded(child: Container()),
+                        Text(_artist.getName(),
+                          textAlign: TextAlign.center,
+                        ),
+                      ])
+                    ),
                     Container(
                       constraints:
                           const BoxConstraints(minHeight: 100, minWidth: 100),
@@ -49,19 +58,19 @@ class ArtistBox extends StatelessWidget {
                               ),
                             ),
                           ),
-                          //Hero(tag: id,
-                            //child: 
-                            Container(
-                              constraints: const BoxConstraints(
-                                  minHeight: 100, minWidth: 100, maxHeight: 100, maxWidth: 100),
-                              decoration: BoxDecoration(
+                          Container(
+                            child: id==0? null:Hero( tag: id,
+                              child: Container(
+                            constraints: const BoxConstraints(
+                                minHeight: 100, minWidth: 100, maxHeight: 100, maxWidth: 100),
+                            decoration: BoxDecoration(
                                 image: DecorationImage(
                                   fit: BoxFit.cover,
                                   image: CachedNetworkImageProvider(_artist.getImgUrl()),
                                 ),
                               ),
-                            ),
-                          //),
+                            ),),
+                          ),
                         ],
                       ),
                     ),

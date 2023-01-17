@@ -19,6 +19,7 @@ class TeamPage extends StatefulWidget {
 class _TeamPageState extends State<TeamPage> {
   final ValueNotifier<bool> _nameEmptyNotifier = ValueNotifier(true);
   int _cash = 100;
+  int _pointsTotal = 0;
   String _teamName = "";
   int _total = 0;
   List _teamIds = [];
@@ -131,6 +132,7 @@ class _TeamPageState extends State<TeamPage> {
           _teamName = teamData[0]['team_name'];
           _cash = teamData[0]['cash'];
           _editable = false;
+          _pointsTotal = 0;
         }
       } catch (error) {
         context.showErrorSnackBar(message: 'Ett oväntat fel uppstod');
@@ -166,7 +168,7 @@ class _TeamPageState extends State<TeamPage> {
                         textStyle: const TextStyle(fontSize: 20)),
                     onPressed: () {
                     },
-                    child: Text("Mellocash: $_cash"),
+                    child: _editable? Text("Mellocash: $_cash"):Text("Poängsumma: $_pointsTotal"),
                   )
                 ],
               ),
@@ -227,7 +229,7 @@ class _TeamPageState extends State<TeamPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(40.0),
+                    padding: const EdgeInsets.all(20.0),
                     child: _editable
                         ? TextField(
                             decoration: const InputDecoration(

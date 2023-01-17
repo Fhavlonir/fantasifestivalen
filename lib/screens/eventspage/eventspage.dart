@@ -24,6 +24,7 @@ class EventItem extends StatelessWidget {
         margin: EdgeInsets.all(16),
           child: Column( children: [ 
             Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Container(
                   width: 360,
@@ -36,8 +37,11 @@ class EventItem extends StatelessWidget {
                   child: Text(_rules.getRule(_event.getRule()).getName(),
                     style: Theme.of(context).textTheme.headline6),
               ),
-              Text(_rules.getRule(_event.getRule()).getReward().toString(),
-                  style: Theme.of(context).textTheme.headline5),
+              Container(
+                width: 80,
+                child: Text(_rules.getRule(_event.getRule()).getReward().toString(),
+                    style: Theme.of(context).textTheme.headline5),
+              )
               ]),
             Text(_event.getComment() ?? '',
                 style: Theme.of(context).textTheme.caption),
@@ -70,6 +74,7 @@ class EventsPage extends StatelessWidget {
               child: Container(
                 margin: EdgeInsets.only(left: 36, right: 36, top: 36, bottom: 16),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children:[
                     Container(
                       width: 360,
@@ -81,8 +86,11 @@ class EventsPage extends StatelessWidget {
                       child: Text('Regel', 
                         style: Theme.of(context).textTheme.headline5,),
                     ),
-                    Text('Poäng',
-                      style: Theme.of(context).textTheme.headline5,), 
+                    Container(
+                      width: 80,
+                      child: Text('Poäng',
+                        style: Theme.of(context).textTheme.headline5,), 
+                    ),
                   ],
                 ),
               )

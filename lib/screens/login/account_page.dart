@@ -12,7 +12,7 @@ class AccountPage extends StatefulWidget {
 
 class _AccountPageState extends State<AccountPage> {
   var _loading = false;
-
+  
   Future<void> _signOut() async {
     try { 
       await supabase.auth.signOut();
@@ -45,6 +45,7 @@ class _AccountPageState extends State<AccountPage> {
         children: [
           const SizedBox(height: 18),
           ElevatedButton(onPressed: _signOut, child: const Text('Logga Ut')),
+          const SizedBox(height: 18),
         ],
       ),
     );

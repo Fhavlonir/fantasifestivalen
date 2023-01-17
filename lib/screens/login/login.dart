@@ -24,26 +24,15 @@ class _LoginPageState extends State<LoginPage> {
       _isLoading = true;
     });
     try {
-      //if (_emailController.text == 'test@fantamello.se') {
-      //  await supabase.auth.signInWithPassword(
-      //    email: _emailController.text,
-      //    password: 'testtest',
-      //  );
-      //  if (mounted) {
-      //    context.showSnackBar(message: 'Loggar in på testkontot...');
-      //    _emailController.clear();
-      //  }
-      //} else {
         await supabase.auth.signInWithOtp(
           email: _emailController.text,
           emailRedirectTo:
-            kIsWeb ? null : 'io.supabase.flutterquickstart://login-callback/',
+            kIsWeb ? null : 'io.fantamello.fantamello://login-callback/',
         );
         if (mounted) {
           context.showSnackBar(message: 'Kolla mailen för inloggningslänk!');
           _emailController.clear();
         }
-      //}
     } on AuthException catch (error) {
       context.showErrorSnackBar(message: error.message);
     } catch (error) {
@@ -72,11 +61,13 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Logga In')),
+      appBar: AppBar(title: const Text('Fantamello')),
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
         children: [
-          const Text('Skriv in din mailaddress för att få en inloggningslänk'),
+          const Text('Fantamello är som fantasy football för Melodifestivalen!\nVälj fem artister, och följd dem genom tävlingen. Beroende på hur det går för dem och vad de gör kommer du få olika mycket poäng i slutet.'),
+          const SizedBox(height: 18),
+          const Text('Taggad? Skriv in din mailaddress för att få en inloggningslänk:'),
           const SizedBox(height: 18),
           TextFormField(
             controller: _emailController,

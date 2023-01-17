@@ -23,6 +23,7 @@ class RuleItem extends StatelessWidget {
             children: [ 
               Container(
                   child: Row( 
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     SizedBox(
                       width: 360,
@@ -34,8 +35,11 @@ class RuleItem extends StatelessWidget {
                       child: Text(rule.getReward().toString(),
                         style: Theme.of(context).textTheme.headline6),
                     ),
-                    Text(rule.getCategory().toString(),
-                        style: Theme.of(context).textTheme.headline6),
+                    SizedBox(
+                      width: 240,
+                      child: Text(rule.getCategory().toString(),
+                        style: Theme.of(context).textTheme.headline6)
+                    ),
                   ]),
               ),
               Text(rule.getDesc() ?? '',
@@ -53,6 +57,7 @@ class RulesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return (Consumer<RuleList>(builder: (context, rules, child) {
       List<RuleItem> items = [];
+      
       for (Rule rule in rules.getAllRules()) {
         items.add(RuleItem(rule));
       }
@@ -65,28 +70,37 @@ class RulesPage extends StatelessWidget {
           children: [ 
             Container(
               decoration: BoxDecoration(color: Theme.of(context).splashColor),
-              child: Container(
-                margin: EdgeInsets.only(left: 36, right: 36, top: 36, bottom: 16),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 360,
-                      child: Text('Regelnamn',
-                        style: Theme.of(context).textTheme.headline5,),
+              child: Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(left: 36, right: 36, top: 36, bottom: 16),
+                    child: Text('- Alla lag innehåller fem artister till kostnadssumma av 100 Mellocash eller mindre.\n- Nedanstående regler kan ge eller dra ifrån poäng\n- Flest poäng vinner!', style: Theme.of(context).textTheme.headline6),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 36, right: 36, top: 36, bottom: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Container(
+                          width: 360,
+                          child: Text('Regelnamn',
+                            style: Theme.of(context).textTheme.headline5,),
+                        ),
+                        Container(
+                          width: 80,
+                          child: Text('Poäng',
+                            style: Theme.of(context).textTheme.headline5,),
+                        ),
+                        Container(
+                          width: 240,
+                          child: Text('Kategori', 
+                            style: Theme.of(context).textTheme.headline5,),
+                        ),
+                      ],
                     ),
-                    Container(
-                      width: 80,
-                      child: Text('Poäng',
-                        style: Theme.of(context).textTheme.headline5,),
-                    ),
-                    Container(
-                      width: 240,
-                      child: Text('Kategori', 
-                        style: Theme.of(context).textTheme.headline5,),
-                    ),
-                  ],
-                ),
-              )
+                  ),
+                ]
+              ),
             )]..addAll(items)
         ),
       );
