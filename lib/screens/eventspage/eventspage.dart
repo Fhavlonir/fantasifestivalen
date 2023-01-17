@@ -56,47 +56,47 @@ class EventsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-      final events = Provider.of<EventList>(context);
-      final rules = Provider.of<RuleList>(context);
-      final artists = Provider.of<ArtistList>(context);
-      List<EventItem> items = [];
-      for (Event event in events.getAllEvents()) {
-        items.add(EventItem(event, artists, rules));
-      }
-      return Scaffold(
-        appBar: AppBar(
-          title: Text('Händelser'),
-        ),
-        body: ListView(
-          children: [
-            Container(
-              decoration: BoxDecoration( color: Theme.of(context).splashColor,),
-              child: Container(
-                margin: EdgeInsets.only(left: 36, right: 36, top: 36, bottom: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children:[
-                    Container(
-                      width: 360,
-                      child: Text('Artist',
-                        style: Theme.of(context).textTheme.headline5,),
-                    ),
-                    Container(
-                      width: 240,
-                      child: Text('Regel', 
-                        style: Theme.of(context).textTheme.headline5,),
-                    ),
-                    Container(
-                      width: 80,
-                      child: Text('Poäng',
-                        style: Theme.of(context).textTheme.headline5,), 
-                    ),
-                  ],
-                ),
-              )
+    final events = Provider.of<EventList>(context);
+    final rules = Provider.of<RuleList>(context);
+    final artists = Provider.of<ArtistList>(context);
+    List<EventItem> items = [];
+    for (Event event in events.getAllEvents()) {
+      items.add(EventItem(event, artists, rules));
+    }
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Händelser'),
+      ),
+      body: ListView(
+        children: [
+          Container(
+            decoration: BoxDecoration( color: Theme.of(context).splashColor,),
+            child: Container(
+              margin: EdgeInsets.only(left: 36, right: 36, top: 36, bottom: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children:[
+                  Container(
+                    width: 360,
+                    child: Text('Artist',
+                      style: Theme.of(context).textTheme.headline5,),
+                  ),
+                  Container(
+                    width: 240,
+                    child: Text('Regel', 
+                      style: Theme.of(context).textTheme.headline5,),
+                  ),
+                  Container(
+                    width: 80,
+                    child: Text('Poäng',
+                      style: Theme.of(context).textTheme.headline5,), 
+                  ),
+                ],
+              ),
             )
-          ]..addAll(items)
-        ),
-      );
+          )
+        ]..addAll(items)
+      ),
+    );
   }
 }

@@ -29,6 +29,18 @@ class _TeamPageState extends State<TeamPage> {
   bool _updatedTeam = false;
   bool _editable = true;
 
+  int getPoints(Team team, EventList events, RuleList rules){
+    int _points = 0;
+    for (int i=0; i<5; i++) {
+      int id = team.getArtistId(i);
+      for (Event event in events.getAllEvents()){
+        if (event.getArtist() == id){
+          _points += rules.getRule(event.getRule()).getReward();
+        }
+      }
+    }
+    return _points;
+  }
   Future<bool> _updateEvents() async {
     if (!_updatedEvents) {
       try {
@@ -168,7 +180,11 @@ class _TeamPageState extends State<TeamPage> {
                         textStyle: const TextStyle(fontSize: 20)),
                     onPressed: () {
                     },
-                    child: _editable? Text("Mellocash: $_cash"):Text("Poängsumma: $_pointsTotal"),
+                    child: Consumer3<Team, EventList, RuleList>(
+                      builder: (context, team, events, rules, child) {
+                      return _editable? Text("Mellocash: $_cash"):Text("Poängsumma: "+getPoints(team, events, rules).toString());
+                      }
+                    )
                   )
                 ],
               ),

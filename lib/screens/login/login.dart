@@ -27,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
         await supabase.auth.signInWithOtp(
           email: _emailController.text,
           emailRedirectTo:
-            kIsWeb ? null : 'io.fantamello.fantamello://login-callback/',
+            kIsWeb ? null : 'se.fantamello.fantamello://login-callback/',
         );
         if (mounted) {
           context.showSnackBar(message: 'Kolla mailen för inloggningslänk!');

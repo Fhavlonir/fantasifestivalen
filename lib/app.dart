@@ -28,7 +28,6 @@ class Artist {
   getImgCred() => _imgcred;
   getImgUrl() => _imgurl;
   getImg() => _imgpath + ".jpg";
-  //getThumb() => _imgpath + "_thumb.jpg";
   getDesc() => _desc;
 }
 
@@ -66,10 +65,10 @@ class Rule {
   final String _category;
   final int _reward;
   
-  getName() => _name;
-  getDesc() => _desc;
-  getCategory() => _category;
-  getReward() => _reward;
+  String getName() => _name;
+  String getDesc() => _desc;
+  String getCategory() => _category;
+  int getReward() => _reward;
 }
 
 class RuleList extends ChangeNotifier {
@@ -84,11 +83,6 @@ class RuleList extends ChangeNotifier {
   }
 
   Iterable<Rule> getAllRules() {
-    //List<Rule> allRules = [];
-    //for (int i = 1; i <= rules.length; i++) {
-    //  allRules.add(rules[i] ?? nullRule);
-    //}
-    //return allRules;
     return rules.values;
   }
 
@@ -103,8 +97,8 @@ class Event {
   final int _artist;
   final int _rule;
   var _comment;
-  getArtist() => _artist;
-  getRule() => _rule;
+  int getArtist() => _artist;
+  int getRule() => _rule;
   getComment() => _comment;
 }
 
@@ -119,12 +113,18 @@ class EventList extends ChangeNotifier {
     events[id] = event;
   }
 
-  List<Event> getAllEvents() {
-    List<Event> allEvents = [];
-    for (int i = 1; i <= events.length; i++) {
-      allEvents.add(events[i] ?? nullEvent);
+  Iterable<Event> getAllEvents() {
+    return events.values;
+  }
+
+  List<Event> getArtistEvents(int id) {
+    List<Event> artistEvents = [];
+    for (Event event in events.values){
+      if (event.getArtist()==id) {
+        artistEvents.add(event);
+      }
     }
-    return allEvents;
+    return artistEvents;
   }
 
   void updateEvent(int id, Event event) {
