@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'artistbox.dart';
+import 'eventfeed.dart';
 import '../login/account_page.dart';
 import '../rulespage/rulespage.dart';
 import '../eventspage/eventspage.dart';
@@ -182,7 +183,9 @@ class _TeamPageState extends State<TeamPage> {
                     },
                     child: Consumer3<Team, EventList, RuleList>(
                       builder: (context, team, events, rules, child) {
-                      return _editable? Text("Mellocash: $_cash"):Text("Poängsumma: "+getPoints(team, events, rules).toString());
+                      return _editable? 
+                        Text("Mellocash: $_cash"):
+                        Text("Poängsumma: "+getPoints(team, events, rules).toString());
                       }
                     )
                   )
@@ -241,60 +244,78 @@ class _TeamPageState extends State<TeamPage> {
                   ],
                 ),
               ),
-              body: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: _editable
-                        ? TextField(
-                            decoration: const InputDecoration(
-                              labelText: "Namnge ditt lag",
-                            ),
-                            onChanged: (String value) {
-                              _teamName = value;
-                              _nameEmptyNotifier.value = (value == "");
-                            },
-                          )
-                        : Text(_teamName,
-                            style: Theme.of(context).textTheme.headline3),
-                  ),
-                  Center(child: Consumer<Team>(builder: (context, team, child) {
-                    if (!_editable) {
-                      for (int i = 0; i < 5; i++) {
-                        team.setArtist(i, _teamIds[i]);
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: _editable
+                          ? TextField(
+                              decoration: const InputDecoration(
+                                labelText: "Namnge ditt lag",
+                              ),
+                              onChanged: (String value) {
+                                _teamName = value;
+                                _nameEmptyNotifier.value = (value == "");
+                              },
+                            )
+                          : Text(_teamName,
+                              style: Theme.of(context).textTheme.headline3),
+                    ),
+                    Consumer<Team>(builder: (context, team, child) {
+                      if (!_editable) {
+                        for (int i = 0; i < 5; i++) {
+                          team.setArtist(i, _teamIds[i]);
+                        }
                       }
-                    }
-                    return Wrap(
-                      alignment: WrapAlignment.spaceEvenly,
-                      spacing: 20.0,
-                      runSpacing: 30.0,
-                      children: [
-                        ArtistBox(0, _editable),
-                        ArtistBox(1, _editable),
-                        ArtistBox(2, _editable),
-                        ArtistBox(3, _editable),
-                        ArtistBox(4, _editable),
-                      ],
-                    );
-                  })),
-                  Consumer<Team>(builder: (context, team, child) {
-                    if (_editable) {
-                      return Consumer<ArtistList>(
+                      return FittedBox(
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                ArtistBox(0, _editable),
+                                ArtistBox(1, _editable),
+                                ArtistBox(2, _editable),
+                              ],
+                            ),
+                            Row(
+                              children:[
+                                ArtistBox(3, _editable),
+                                ArtistBox(4, _editable),
+                              ],
+                            )
+                          ]
+                        )
+                      );
+                    }),
+                    Consumer<Team>(builder: (context, team, child) {
+                      if (_editable) {
+                        return Consumer<ArtistList>(
                           builder: (context, artists, child) {
-                        _total = 0;
-                        team.getTeamIds().forEach(
-                            (id) => _total += artists.getArtist(id).getCost() as int);
-                        return Text("Total kostnad: $_total",
-                            style: (_total > _cash)
-                                ? const TextStyle(color: Colors.red)
-                                : const TextStyle());
-                      });
-                    } else {
-                      return const SizedBox.shrink();
-                    }
-                  })
-                ],
+                            _total = 0;
+                            team.getTeamIds().forEach(
+                              (id) => _total += artists.getArtist(id).getCost() as int);
+                            return Column(
+                              children: [
+                                Text(
+                                  "Sätt samman ett lag av fem artister för högst 100 Mellocash!",
+                                  style: Theme.of(context).textTheme.headline6),
+                                Text("Total kostnad: $_total",
+                                  style: (_total > _cash)
+                                    ? const TextStyle(color: Colors.red)
+                                    : const TextStyle())
+                              ]
+                            );
+                          }
+                        );
+                      } else {
+                        return EventFeed(team);
+                      }
+                    }),
+                  ],
+                )
               ),
               floatingActionButton:
                 Consumer<Team>(builder: (context, team, child) {
@@ -331,7 +352,7 @@ class _TeamPageState extends State<TeamPage> {
                         } else {
                           return const SizedBox.shrink();
                         }
-                      });
+                    });
               }),
             );
           }

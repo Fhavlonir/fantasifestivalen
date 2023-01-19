@@ -26,66 +26,68 @@ class ArtistBox extends StatelessWidget {
         }
       }
       return TextButton(
-          child: SizedBox(
-            width: 150,
-            height: 150,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 32,
-                  child: Column(children: [
-                    Expanded(child: Container()),
-                    Text(_artist.getName(),
-                      textAlign: TextAlign.center,
-                    ),
-                  ])
-                ),
-                Container(
-                  constraints:
-                      const BoxConstraints(minHeight: 100, minWidth: 100),
-                  child: Stack(
-                    children: [
-                      ColoredBox(
-                        color: Colors.grey,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              '+',
-                              textAlign: TextAlign.center,
-                              style:
-                                  Theme.of(context).textTheme.headline2,
-                            ),
-                          ],
-                        ),
+          child: Container(
+            constraints: BoxConstraints(maxWidth: 150, maxHeight: 150),
+            child: AspectRatio(
+              aspectRatio: 1.0,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 32,
+                    child: Column(children: [
+                      Expanded(child: Container()),
+                      Text(_artist.getName(),
+                        textAlign: TextAlign.center,
                       ),
-                      Container(
-                        child: id==0? null:Hero( tag: id,
-                          child: Container(
-                          constraints: const BoxConstraints(
-                              minHeight: 100, minWidth: 100, maxHeight: 100, maxWidth: 100),
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: CachedNetworkImageProvider(_artist.getImgUrl()),
-                              ),
+                    ])
+                  ),
+                  Expanded(
+                    child: AspectRatio(
+                    aspectRatio: 1.0,
+                      child: Stack(
+                        children: [
+                          ColoredBox(
+                            color: Colors.grey,
+                            child: Center(
+                              child: Text(
+                                  '+',
+                                  textAlign: TextAlign.center,
+                                  style:
+                                      Theme.of(context).textTheme.headline2,
+                                ),
                             ),
                           ),
-                        ),
-                      ),
-                    ],
+                          Container(
+                            child: id==0? null:
+                              Hero( tag: id,
+                                child: Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: CachedNetworkImageProvider(_artist.getImgUrl()),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ),
+                        ],
+                      )
+                    )
                   ),
-                ),
-                _editable? Text(
-                  'Kostnad: $_cost',
-                  style: Theme.of(context).textTheme.caption,
-                ) : Text(
-                  'Poäng: $_points',
-                  style: Theme.of(context).textTheme.caption,
-                )
-              ],
-            ),
+                  SizedBox(
+                    height: 16,
+                    child: _editable? Text(
+                      'Kostnad: $_cost',
+                      style: Theme.of(context).textTheme.caption,
+                    ) : Text(
+                      'Poäng: $_points',
+                      style: Theme.of(context).textTheme.caption,
+                    )
+                  )
+                ],
+              )
+            )
           ),
           onPressed: () {
             if (_editable) {

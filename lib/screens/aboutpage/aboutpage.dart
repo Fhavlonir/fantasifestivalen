@@ -33,7 +33,7 @@ class AboutPage extends StatelessWidget {
                 margin: EdgeInsets.all(10),
                 constraints: BoxConstraints(maxWidth: 400),
                 child: Text(
-                  'Jag hoppas du gillar appen! Jag som gjort den heter Philip Johansson, jag bor i Lund och pluggar på LTH.\nAppen är publicerad under licensen GNU Affero General Public License version 3.\nDen är byggd med hjälp av Flutter, hostad med hjälp av Github Pages och Supabase.\nBilderna kommer från Wikimedia Commons, oändliga tack till alla som bidragit med dessa, särskilt Jonatan Svensson Glad, AnnCatrin Blyckerts och Daniel Åhs Karlsson.'),
+                  'Jag hoppas du gillar Fantamello! Jag som gjort den heter Philip Johansson, jag bor i Lund och pluggar på LTH.\nAppen är publicerad under licensen GNU Affero General Public License version 3.\nDen är byggd med hjälp av Flutter, hostad med hjälp av Github Pages och Supabase.\nBilderna kommer från Wikimedia Commons, oändliga tack till alla som bidragit med dessa, särskilt Jonatan Svensson Glad, AnnCatrin Blyckerts och Daniel Åhs Karlsson.\n\nOm du har frågor eller feedback kan du kontakta mig på philip@fantamello.se'),
               )
             ]
           )]
