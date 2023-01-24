@@ -22,8 +22,10 @@ class ArtistPage extends StatelessWidget {
         appBar: AppBar(
           title: Text(_artist.getName()),
         ),
-        body: ListView(
-          shrinkWrap: true,
+        body: Center( child: Container( 
+          constraints: BoxConstraints(maxWidth: 700),
+          child: ListView(
+          //shrinkWrap: true,
           children: [
             Hero(tag: id,
               child: Container(
@@ -87,7 +89,7 @@ class ArtistPage extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
               child: Text(_artist.getDesc()),
             ),
-          ],
+          ],))
         ),
         floatingActionButton: _editable
             ? FloatingActionButton(

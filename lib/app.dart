@@ -163,8 +163,8 @@ class Team extends ChangeNotifier {
   }
 }
 
-class Fantamello extends StatelessWidget {
-  const Fantamello({Key? key}) : super(key: key);
+class Fantasifestivalen extends StatelessWidget {
+  const Fantasifestivalen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -184,7 +184,7 @@ class Fantamello extends StatelessWidget {
         )
       ],
       child: MaterialApp(
-        title: 'Fantamello',
+        title: 'Fantasifestivalen',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),

@@ -27,7 +27,7 @@ class _LoginPageState extends State<LoginPage> {
         await supabase.auth.signInWithOtp(
           email: _emailController.text,
           emailRedirectTo:
-            kIsWeb ? null : 'se.fantamello.fantamello://login-callback/',
+            kIsWeb ? null : 'se.fantasifestivalen.fantasifestivalen://login-callback/',
         );
         if (mounted) {
           context.showSnackBar(message: 'Kolla mailen för inloggningslänk!');
@@ -61,11 +61,11 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Fantamello')),
+      appBar: AppBar(title: const Text('Fantasifestivalen')),
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
         children: [
-          const Text('Fantamello är som fantasy football för Melodifestivalen!\nVälj fem artister, och följd dem genom tävlingen. Beroende på hur det går för dem och vad de gör kommer du få olika mycket poäng i slutet.\n\nDen enda data som samlas in är din mailaddress och vilka artister du har i ditt lag.'),
+          const Text('Fantasifestivalen är som fantasy football för Melodifestivalen!\nVälj fem artister, och följd dem genom tävlingen. Beroende på hur det går för dem och vad de gör kommer du få olika mycket poäng i slutet.\n\nDen enda data som samlas in är din mailaddress och vilka artister du har i ditt lag.'),
           const SizedBox(height: 18),
           const Text('Taggad? Skriv in din mailaddress för att få en inloggningslänk:'),
           const SizedBox(height: 18),

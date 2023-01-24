@@ -173,7 +173,7 @@ class _TeamPageState extends State<TeamPage> {
           } else {
             return Scaffold(
               appBar: AppBar(
-                title: const Text("Fantamello"),
+                title: const Text("Fantasifestivalen"),
                 actions: <Widget>[
                   TextButton(
                     style: TextButton.styleFrom(
@@ -199,7 +199,7 @@ class _TeamPageState extends State<TeamPage> {
                       decoration: BoxDecoration(
                         color: Colors.blue,
                       ),
-                      child: Text('Fantamello'),
+                      child: Text('Fantasifestivalen'),
                     ),
                     ListTile(
                       title: const Text('Regler'),

@@ -19,36 +19,39 @@ class EventsPage extends StatelessWidget {
         title: Text('Händelser'),
       ),
       body: Center(
-          child: Column(
-            children: [
-            Card(
+        child: ListView( 
+          children: [
+            Center( child: Card(
               color: Theme.of(context).splashColor,
               child: Padding(
                 padding: EdgeInsets.all(16),
-                child: Text("De här sakerna har hänt i Melodifestivalen hittills, och ger plus- eller minuspoäng till artisterna i Fantamello, se Regler-sidan för mer information.",
-                style: Theme.of(context).textTheme.headline6
+                child: Text("De här sakerna har hänt i Melodifestivalen hittills, och ger plus- eller minuspoäng till artisterna i Fantasifestivalen, se Regler-sidan för mer information.",
+                  style: Theme.of(context).textTheme.headline6
+                )
               ))
             ),
             DataTable(
-            columns: const <DataColumn>[
-              DataColumn(
-                label: Expanded(
-                  child: Text('Artist')
+              columns: const <DataColumn>[
+                DataColumn(
+                  label: Expanded(
+                    child: Text('Artist')
+                  ),
                 ),
-              ),
-              DataColumn(
-                label: Expanded(
-                  child: Text('Vad de gjort')
+                DataColumn(
+                  label: Expanded(
+                    child: Text('Vad de gjort')
+                  ),
                 ),
-              ),
-              DataColumn(
-                label: Expanded(
-                  child: Text('Poäng')
-                ),
-              )
-            ],
-            rows: eventRows.reversed.toList(),
-          )])
+                DataColumn(
+                  label: Expanded(
+                    child: Text('Poäng')
+                  ),
+                )
+              ],
+              rows: eventRows.reversed.toList(),
+            )
+          ]
+        )
       ),
     );
   }

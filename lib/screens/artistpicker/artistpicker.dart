@@ -78,7 +78,7 @@ class ArtistPicker extends StatelessWidget {
     return Consumer<ArtistList>(builder: (context, artists, child) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text("Fantamello"),
+          title: const Text("Fantasifestivalen"),
         ),
         body: Container(
           child: Row(
