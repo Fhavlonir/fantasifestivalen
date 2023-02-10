@@ -65,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
         children: [
-          const Text('Fantasifestivalen är som fantasy football för Melodifestivalen!\nVälj fem artister, och följd dem genom tävlingen. Beroende på hur det går för dem och vad de gör kommer du få olika mycket poäng i slutet.\n\nDen enda data som samlas in är din mailaddress och vilka artister du har i ditt lag.'),
+          const Text('Fantasifestivalen är som fantasy football för Melodifestivalen!\nVälj fem artister, och följ dem genom tävlingen. Beroende på hur det går för dem och vad de gör kommer du få olika mycket poäng i slutet.\n\nDen enda data som samlas in är din mailaddress och vilka artister du har i ditt lag.'),
           const SizedBox(height: 18),
           const Text('Taggad? Skriv in din mailaddress för att få en inloggningslänk:'),
           const SizedBox(height: 18),
