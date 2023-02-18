@@ -13,21 +13,24 @@ class EventsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Händelser'),
       ),
-      body: Center(
-        child: ListView( 
+      body: Column( 
           children: [
             Center( child: Card(
-              color: Theme.of(context).splashColor,
+              color: Theme.of(context).colorScheme.primary,
               child: Padding(
                 padding: EdgeInsets.all(16),
                 child: Text("De här sakerna har hänt i Melodifestivalen hittills och ger plus- eller minuspoäng till artisterna i Fantasifesivalen, se Regler-sidan för med information.",
-                  style: Theme.of(context).textTheme.headline6
+                  style: TextStyle(fontSize: 18, color: Theme.of(context).colorScheme.onPrimary)
                 )
               )
             )),
-            EventFeed(null),
+            Expanded(
+              child: Container(
+                constraints: BoxConstraints(maxWidth: 600),
+                child:  EventFeed(null),
+              )
+            )
           ]
-        )
       ),
     );
   }

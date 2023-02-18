@@ -36,7 +36,8 @@ class ArtistPage extends StatelessWidget {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: CachedNetworkImageProvider(_artist.imgurl)
+                      image: CachedNetworkImageProvider(_artist.imgurl),
+                      alignment: Alignment(0,-0.5),
                     ),
                   ),
                 ),
@@ -99,13 +100,10 @@ class ArtistPage extends StatelessWidget {
                 height: 250.0,
                 child: Card(
                   elevation: 20,
-                  child: ListView(
-                    children: [
-                      EventFeed([_artist.id])
-                    ],
+                  child: EventFeed([_artist.id]),
                   )
                 )
-              )),
+              ),
               SizedBox(
                 height: 48,
               )

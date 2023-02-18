@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:isar/isar.dart';
 
 import '../main.dart';
+import '../app.dart';
 
 final supabase = Supabase.instance.client;
+late final Isar isar;
 
 extension ShowSnackBar on BuildContext {
   void showSnackBar({

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:isar/isar.dart';
 
 import 'app.dart';
+import 'utils/constants.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+ isar = await Isar.open(schemas: [ArtistSchema, RuleSchema, EventSchema]);
+ WidgetsFlutterBinding.ensureInitialized();
   await Supabase.initialize(
       url: 'https://tquhibsbxumaqfttipmr.supabase.co',
       anonKey:

@@ -41,6 +41,7 @@ class ArtistOption extends StatelessWidget {
                     image: DecorationImage(
                       fit: BoxFit.cover,
                       image: CachedNetworkImageProvider(_artist.imgurl),
+                      alignment: Alignment(0,-0.5),
                     ),
                   ),
                   alignment: Alignment.bottomLeft,
@@ -100,19 +101,16 @@ class ArtistPicker extends StatelessWidget {
           return false;
         },
         child: Container(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                constraints: BoxConstraints(maxWidth:600),
-                child: ListView(
-                  children:
-                    List<int>.generate(28, (index) => index + 1, growable: false)
-                      .map((id) => ArtistOption(id))
-                      .toList(),
-                )
-              ),
-            ],
+          child: Center(
+            child: Container(
+              constraints: BoxConstraints(maxWidth:600),
+              child: ListView(
+                children:
+                  List<int>.generate(28, (index) => index + 1, growable: false)
+                    .map((id) => ArtistOption(id))
+                    .toList(),
+              )
+            ),
           ),
         ),
       ),

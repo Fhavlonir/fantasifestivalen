@@ -65,12 +65,13 @@ class LeaderboardsPage extends StatelessWidget {
         shrinkWrap: true,
         children: [ 
           Center(child: Card(
-            color: Theme.of(context).splashColor,
+            color: Theme.of(context).colorScheme.primary,
             child: Padding(
               padding: EdgeInsets.all(16),
-              child: Text('Dessa är lagen som leder i Fantasifestivalen just nu!', 
-              style: Theme.of(context).textTheme.headline6),
-            ),
+                child: Text('Dessa är lagen som leder i Fantasifestivalen just nu!', 
+                style: TextStyle(fontSize: 18, color: Theme.of(context).colorScheme.onPrimary)
+              ),
+            )
           )),
           LeaderboardsTable()
         ]

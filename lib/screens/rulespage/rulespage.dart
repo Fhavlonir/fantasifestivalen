@@ -58,11 +58,12 @@ class RulesPage extends StatelessWidget {
         shrinkWrap: true,
         children: [ 
           Center(child: Card(
-            color: Theme.of(context).splashColor,
+            color: Theme.of(context).colorScheme.primary,
             child: Padding(
               padding: EdgeInsets.all(16),
-              child: Text('- Alla lag måste innehålla fem artister till kostnadssumma av 100 Mellocash eller mindre.\n- Överblivna Mellocash återvänds som poäng.\n- Nedanstående regler kan ge eller dra ifrån poäng.\n- Fyndiga namn är obligatoriska.\n- Att lägga upp en screenshot av sitt lag på sociala medier är varmt rekommenderat.\n- Flest poäng vinner!', 
-              style: Theme.of(context).textTheme.headline6),
+                child: Text('- Alla lag måste innehålla fem artister till kostnadssumma av 100 Mellocash eller mindre.\n- Överblivna Mellocash återvänds som poäng.\n- Nedanstående regler kan ge eller dra ifrån poäng.\n- Fyndiga namn är obligatoriska.\n- Att lägga upp en screenshot av sitt lag på sociala medier är varmt rekommenderat.\n- Flest poäng vinner!', 
+                style: TextStyle(fontSize: 18, color: Theme.of(context).colorScheme.onPrimary)
+              ),
             ),
           )),
           RulesTable()

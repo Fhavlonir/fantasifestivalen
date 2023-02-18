@@ -4,80 +4,105 @@ import 'package:isar/isar.dart';
 import '../../app.dart';
 import '../../utils/constants.dart';
 
-class EventFeed extends StatelessWidget {
-  const EventFeed(List<int>? this.artists, {Key? key}) : super(key: key);
+class EventFeed extends StatefulWidget {
   final List<int>? artists;
+  List<Event> events=[];
+  EventFeed(List<int>? this.artists, {Key? key}) : super(key: key);
 
-  Future<List<Event>> getEvents() async {
-    List<Event> events=[];
-    if (artists != null){
+  @override
+  _EventFeedState createState() => _EventFeedState();
+}
+
+class _EventFeedState extends State<EventFeed> {
+
+  Stream<void> getEvents() async* {
+    List<Event> newEvents = [];
+    if (widget.artists != null) {
       List<Event> allEvents = [];
       List<Future> loadAllEvents = [];
-      for (Event e in await isar.events.where().sortByIdDesc().findAll()){
+      for (Event e in await isar.events.where().sortById().findAll()){
         allEvents.add(e);
         loadAllEvents.add(e.artist.load());
       }
       await Future.wait(loadAllEvents);
       List<Future> loadFilteredEvents = [];
       for (Event e in allEvents){
-        if (artists?.contains(e.artist.value?.id)??false) {
-          events.add(e);
+        if (widget.artists?.contains(e.artist.value?.id)??false) {
+          newEvents.add(e);
           loadFilteredEvents.add(e.rule.load());
         }
       }
       await Future.wait(loadFilteredEvents);
       //for (Event e in artist?.events??[]) { //Someday, when Isar is patched...
-
     } else {
-      events = await isar.events.where().sortByIdDesc().findAll();
+      newEvents = await isar.events.where().sortById().findAll();
     }
     List<Future> waitList = [];
-    for (Event event in events) {
+    for (Event event in newEvents) {
       waitList.add(event.artist.load());
       waitList.add(event.rule.load());
     }
     await Future.wait(waitList);
-    print(events[0].rule.value);
-    return events;
+    for (Event e in newEvents) {
+      widget.events.add(e);
+    }
+    yield null;
+
+    await for (final chunk in isar.events.watchLazy()) {
+      Event? event = await isar.events.where().sortByIdDesc().findFirst();
+      if(event!=null){
+        await Future.wait([
+          event.artist.load(),
+          event.rule.load()
+        ]);
+        widget.events.add(event);
+      }
+      if(widget.artists==null || ((widget.artists?.contains((event?.artist.value?.id)??0))??false)) {
+        yield null;
+      }
+    }
   }
+  
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: FutureBuilder<List<Event>> (
-        future: getEvents(),
-        builder: (BuildContext context, AsyncSnapshot<List<Event>> snapshot) { 
-          List<Event> _events = snapshot.data??[];
-          List<DataRow> rows = [];
-          for (Event event in _events){
-            rows.add(DataRow(cells: [
-              DataCell(Text(event.artist.value?.name??'')),
-              DataCell(Text(event.rule.value?.name??'')),
-              DataCell(Text(event.rule.value?.reward.toString()??'')),
-            ]));
+    return StreamBuilder<void> (
+      stream: getEvents(),
+      builder: (BuildContext context, AsyncSnapshot<void> snapshot) { 
+        if (widget.events == []) {
+          return Container();
+        } else {
+          List<Widget> tiles = [];
+          for (Event event in widget.events){
+            tiles.add( Card( 
+              color: Theme.of(context).colorScheme.primary,
+              elevation: 20,
+              child: ListTile(
+                leading: CircleAvatar(
+                  child: Text(event.rule.value?.reward.toString()??'',
+                    style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+                  ),
+                  backgroundColor: Theme.of(context).colorScheme.secondary,
+                ),
+                title: Text(event.rule.value?.name??'',
+                  style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                ),
+                trailing: Container(constraints: BoxConstraints(maxWidth:100), 
+                  child: Text(event.artist.value?.name??'',
+                    textAlign: TextAlign.right,
+                    style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                  ),
+                ),
+                subtitle: Text(event.comment??'',
+                  style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                ),
+            )));
           }
-          return DataTable(
-            columns: const <DataColumn>[
-              DataColumn(
-                label: Expanded(
-                  child: Text('Artist')
-                ),
-              ),
-              DataColumn(
-                label: Expanded(
-                  child: Text('Vad de gjort')
-                ),
-              ),
-              DataColumn(
-                label: Expanded(
-                  child: Text('Poäng')
-                ),
-              )
-            ],
-            rows: rows,
+          return ListView(
+            children: tiles.reversed.toList(),
           );
         }
-      )
+      }
     );
   }
 }

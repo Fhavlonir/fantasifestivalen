@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
+import 'dart:async';
 
 import 'artistbox.dart';
 import '../login/account_page.dart';
@@ -27,10 +28,15 @@ class _TeamPageState extends State<TeamPage> {
   Team team = Team([0,0,0,0,0]);
   bool _updatedArtists = false;
   bool _updatedRules = false;
-  bool _updatedEvents = false;
   bool _updatedTeam = false;
   bool _editable = true;
+  Timer? timer;
 
+  @override
+  void initState() {
+    super.initState();
+  }
+  
   Future<void> _updateScore() async {
     if(!_editable) {
       int result = 0;
@@ -59,7 +65,6 @@ class _TeamPageState extends State<TeamPage> {
   }
 
   Future<bool> _updateEvents() async {
-    if (!_updatedEvents) {
       try {
         Event? latest = await isar.events.where().sortByTimestampDesc().findFirst();
         late final eventResponse;
@@ -68,7 +73,7 @@ class _TeamPageState extends State<TeamPage> {
             .from('events')
             .select(
                 'id, created_at, artist, rule, comment')
-            .gte('created_at', latest.timestamp)
+            .gt('created_at', latest.timestamp.toUtc().add(const Duration(seconds: 1)))
             .execute();
         } else {
           eventResponse = await supabase
@@ -93,12 +98,11 @@ class _TeamPageState extends State<TeamPage> {
               await event.rule.save();
             }
           });
+          _updateScore();
         }
       } catch (error) {
         context.showErrorSnackBar(message: 'Ett oväntat fel uppstod');
         print(error);
-      }
-        _updatedEvents = true;
       }
     return Future.value(true);
   }
@@ -207,7 +211,8 @@ class _TeamPageState extends State<TeamPage> {
     for (Artist? a in artists) {
       cost += a?.cost.toInt()??0;
     }
-    refresh?setState(() {_totalCost = cost;}):_totalCost = cost;
+    refresh?setState(() {_totalCost = cost;}):
+    _totalCost = cost;
   }
 
   Future<bool> _updateTeam() async {
@@ -240,15 +245,16 @@ class _TeamPageState extends State<TeamPage> {
   }
   Future<bool> _updateAll() async {
     await Future.wait(<Future>[
-          _updateArtists(),
-          _updateRules(),
-        ]);
+      _updateArtists(),
+      _updateRules(),
+    ]);
     await Future.wait(<Future>[
-          _updateTeam(),
-          _updateEvents(),
-          _updateScore(),
-          _updateCost(refresh: false),
-        ]);
+      _updateTeam(),
+      _updateEvents(),
+      _updateScore(),
+      _updateCost(refresh: false),
+    ]);
+    timer = Timer.periodic(Duration(seconds: 10), (Timer t) => _updateEvents());
     return Future.value(true);
   }
 
@@ -284,10 +290,11 @@ class _TeamPageState extends State<TeamPage> {
                   padding: EdgeInsets.zero,
                   children: [
                     DrawerHeader(
+                      child: Container(),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
+                        image: const DecorationImage( image: AssetImage('assets/images/fantasifestivalen_256.png')),
+                        color: Theme.of(context).colorScheme.primary,
                       ),
-                      child: Text('Fantasifestivalen'),
                     ),
                     ListTile(
                       title: const Text('Regler'),
@@ -360,7 +367,7 @@ class _TeamPageState extends State<TeamPage> {
                               },
                             )
                           : Text(_teamName,
-                              style: Theme.of(context).textTheme.headline3),
+                              style: Theme.of(context).textTheme.headline3,)
                     ),
                       FittedBox(
                         child: Column(
@@ -396,11 +403,7 @@ class _TeamPageState extends State<TeamPage> {
                         elevation: 20,
                         child: ConstrainedBox(
                           constraints: BoxConstraints(maxWidth: 500.0, maxHeight: 250.0),
-                          child: ListView(
-                            children:[
-                              EventFeed(team.getTeamIds().toList())
-                            ]
-                          )
+                          child: EventFeed(team.getTeamIds().toList())
                         )
                       ),
                   ],

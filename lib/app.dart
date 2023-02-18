@@ -1,165 +1,82 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:isar/isar.dart';
 
 import 'screens/teampage/teampage.dart';
 import 'screens/login/account_page.dart';
 import 'screens/login/login.dart';
 import 'screens/login/splash_page.dart';
-import 'package:provider/provider.dart';
+import 'utils/constants.dart';
 
+part 'app.g.dart';
+
+@Collection()
 class Artist {
-  Artist(this._name, this._song, this._cost, this._heat, this._number, this._imgpath,
-      this._desc, this._imgcred, this._imgurl);
-  final String _name;
-  final String _song;
-  final int _cost;
-  final int _heat;
-  final int _number;
-  final String _imgcred;
-  final String _imgurl;
-  final String _imgpath;
-  final String _desc;
-  getName() => _name;
-  getSong() => _song;
-  getCost() => _cost;
-  getHeat() => _heat;
-  getNumber() => _number;
-  getImgCred() => _imgcred;
-  getImgUrl() => _imgurl;
-  getImg() => _imgpath + ".jpg";
-  getDesc() => _desc;
+  Artist(this.id, this.name, this.song, this.cost, this.heat, this.number,
+      this.desc, this.imgcred, this.imgurl, this.timestamp);
+  int id;
+  String name;
+  String song;
+  int cost;
+  int heat;
+  int number;
+  String desc;
+  String imgcred;
+  String imgurl;
+  @Index()
+  DateTime timestamp;
+  @Backlink(to: 'artist')
+  final events = IsarLinks<Event>();
 }
 
-class ArtistList extends ChangeNotifier {
-  final nullArtist = Artist('Välj Artist', '', 0, 0, 0, "", "", "", "");
-  static const dummy =
-      'Träutensilierna i ett tryckeri äro ingalunda en oviktig faktor, för trevnadens, ordningens och ekonomiens upprätthållande, och dock är det icke sällan som sorgliga erfarenheter göras på grund af det oförstånd med hvilket kaster, formbräden och regaler tillverkas och försäljas Kaster som äro dåligt hopkomna och af otillräckligt.\n\nTräutensilierna i ett tryckeri äro ingalunda en oviktig faktor, för trevnadens, ordningens och ekonomiens upprätthållande, och dock är det icke sällan som sorgliga erfarenheter göras på grund af det oförstånd med hvilket kaster, formbräden och regaler tillverkas och försäljas Kaster som äro dåligt hopkomna och af otillräckligt.\n\nTräutensilierna i ett tryckeri äro ingalunda en oviktig faktor, för trevnadens, ordningens och ekonomiens upprätthållande, och dock är det icke sällan som sorgliga erfarenheter göras på grund af det oförstånd med hvilket kaster, formbräden och regaler tillverkas och försäljas Kaster som äro dåligt hopkomna och af otillräckligt.';
-  var artists = <int, Artist>{};
-  Artist getArtist(int id) {
-    return artists[id] ?? nullArtist;
-  }
-
-  void setArtist(int id, Artist artist) {
-    artists[id] = artist;
-  }
-
-  List<Artist> getAllArtists() {
-    List<Artist> allArtists = [];
-    for (int i = 1; i <= 28; i++) {
-      allArtists.add(artists[i] ?? nullArtist);
-    }
-    return allArtists;
-  }
-
-  void updateArtist(int id, Artist artist) {
-    artists[id] = artist;
-    notifyListeners();
-  }
-}
-
+@Collection()
 class Rule {
-  Rule(this._name, this._desc, this._category, this._reward);
-  final String _name;
-  final String _desc;
-  final String _category;
-  final int _reward;
-  
-  String getName() => _name;
-  String getDesc() => _desc;
-  String getCategory() => _category;
-  int getReward() => _reward;
+  Rule(this.id, this.name, this.desc, this.category, this.reward, this.timestamp);
+  int id;
+  String name;
+  String desc;
+  String category;
+  int reward;
+  @Index()
+  DateTime timestamp;
 }
 
-class RuleList extends ChangeNotifier {
-  final nullRule = Rule('', '', '', 0);
-  var rules = <int, Rule>{};
-  Rule getRule(int id) {
-    return rules[id] ?? nullRule;
-  }
-
-  void setRule(int id, Rule rule) {
-    rules[id] = rule;
-  }
-
-  Iterable<Rule> getAllRules() {
-    return rules.values;
-  }
-
-  void updateRule(int id, Rule rule) {
-    rules[id] = rule;
-    notifyListeners();
-  }
-}
-
+@Collection()
 class Event {
-  Event(this._artist, this._rule, this._comment);
-  final int _artist;
-  final int _rule;
-  var _comment;
-  int getArtist() => _artist;
-  int getRule() => _rule;
-  getComment() => _comment;
+  int id;
+  final artist = IsarLink<Artist>();
+  final rule   = IsarLink<Rule>();
+  String comment;
+  @Index()
+  DateTime timestamp;
+
+  Event(this.id, this.comment, this.timestamp);
 }
 
-class EventList extends ChangeNotifier {
-  final nullEvent = Event(0, 0, '');
-  var events = <int, Event>{};
-  Event getEvent(int id) {
-    return events[id] ?? nullEvent;
-  }
+class Team {
+  List<int> ids;
+  Team(List<int> this.ids);
 
-  void setEvent(int id, Event event) {
-    events[id] = event;
-  }
-
-  Iterable<Event> getAllEvents() {
-    return events.values;
-  }
-
-  List<Event> getArtistEvents(int id) {
-    List<Event> artistEvents = [];
-    for (Event event in events.values){
-      if (event.getArtist()==id) {
-        artistEvents.add(event);
-      }
-    }
-    return artistEvents;
-  }
-
-  void updateEvent(int id, Event event) {
-    events[id] = event;
-    notifyListeners();
-  }
-}
-
-class Team extends ChangeNotifier {
-  final _team = List<int>.filled(5, 0);
-  void setArtist(position, id) {
-    for (int i = 0; i < _team.length; i++) {
-      if (_team[i] == id) {
-        _team[i] = 0;
-      }
-    }
-    _team[position] = id;
+  void updateAll(List<int> new_ids) {
+    ids = new_ids.toList();
   }
 
   void updateArtist(position, id) {
-    for (int i = 0; i < _team.length; i++) {
-      if (_team[i] == id) {
-        _team[i] = 0;
+    for (int i = 0; i < ids.length; i++) {
+      if (ids[i] == id) {
+        ids[i] = 0;
       }
     }
-    _team[position] = id;
-    notifyListeners();
+    ids[position] = id;
   }
 
   int getArtistId(int position) {
-    return _team[position];
+    return ids[position];
   }
 
-  UnmodifiableListView getTeamIds() {
-    return UnmodifiableListView(_team);
+  UnmodifiableListView<int> getTeamIds() {
+    return UnmodifiableListView(ids);
   }
 }
 
@@ -168,34 +85,22 @@ class Fantasifestivalen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => RuleList(),
+    return MaterialApp(
+      title: 'Fantasifestivalen',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.indigo,
+          accentColor: Colors.amber,
         ),
-        ChangeNotifierProvider(
-          create: (context) => EventList(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => ArtistList(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => Team(),
-        )
-      ],
-      child: MaterialApp(
-        title: 'Fantasifestivalen',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        initialRoute: '/',
-        routes: <String, WidgetBuilder>{
-          '/': (_) => const SplashPage(),
-          '/login': (_) => const LoginPage(),
-          '/account': (_) => const AccountPage(),
-          '/teampage': (_) => const TeamPage(),
-        },
+        canvasColor: Colors.pink.shade50,
       ),
+      initialRoute: '/',
+      routes: <String, WidgetBuilder>{
+        '/': (_) => const SplashPage(),
+        '/login': (_) => const LoginPage(),
+        '/account': (_) => const AccountPage(),
+        '/teampage': (_) => const TeamPage(),
+      },
     );
   }
 }

@@ -86,70 +86,75 @@ class _ArtistBoxState extends State<ArtistBox> {
     return FutureBuilder(
       future: Future.wait([updateBox()]),
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) { 
-        return TextButton(
-          child: Container(
-            constraints: BoxConstraints(maxWidth: 150, maxHeight: 150),
-            child: AspectRatio(
-              aspectRatio: 1.0,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 32,
-                    child: Column(children: [
-                      Expanded(child: Container()),
-                      Text(
-                        artist?.name ?? "Välj artist",
-                        textAlign: TextAlign.center,) 
-                    ])
-                  ),
-                  Expanded(
-                    child: AspectRatio(
-                    aspectRatio: 1.0,
-                      child: Stack(
-                        children: [
-                          ColoredBox(
-                            color: Theme.of(context).splashColor,
-                            child: Center(
-                              child: Text(
-                                  '+',
-                                  textAlign: TextAlign.center,
-                                  style:
-                                      Theme.of(context).textTheme.headline2,
-                                ),
+        return Card(
+          color: Theme.of(context).colorScheme.primary,
+          child: TextButton(
+            child: Container(
+              constraints: BoxConstraints(maxWidth: 150, maxHeight: 150),
+              child: AspectRatio(
+                aspectRatio: 1.0,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 32,
+                      child: Column(children: [
+                        Expanded(child: Container()),
+                        Text(
+                          artist?.name ?? "Välj artist",
+                          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
+                          textAlign: TextAlign.center,) 
+                      ])
+                    ),
+                    Expanded(
+                      child: AspectRatio(
+                      aspectRatio: 1.0,
+                        child: Stack(
+                          children: [
+                            ColoredBox(
+                              color: Theme.of(context).splashColor,
+                              child: Center(
+                                child: Text(
+                                    '+',
+                                    textAlign: TextAlign.center,
+                                    style:
+                                        Theme.of(context).textTheme.headline2,
+                                  ),
+                              ),
                             ),
-                          ),
-                          if ((artist?.imgurl??'') != '') Hero( tag: artist!.id,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  fit: BoxFit.cover,
-                                  image: CachedNetworkImageProvider(artist!.imgurl),
+                            if ((artist?.imgurl??'') != '') Hero( tag: artist!.id,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: CachedNetworkImageProvider(artist!.imgurl),
+                                    alignment: Alignment(0,-0.5),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        )
+                      )
+                    ),
+                    SizedBox(
+                      height: 16,
+                      child: editable? Text(
+                        'Kostnad: '+(_cost?.toString()??'0'),
+                        style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+                      ) : Text(
+                        'Poäng: $_points',
+                        style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
                       )
                     )
-                  ),
-                  SizedBox(
-                    height: 16,
-                    child: editable? Text(
-                      'Kostnad: '+(_cost?.toString()??'0'),
-                      style: Theme.of(context).textTheme.caption,
-                    ) : Text(
-                      'Poäng: $_points',
-                      style: Theme.of(context).textTheme.caption,
-                    )
-                  )
-                ],
+                  ],
+                )
               )
-            )
-          ),
-          onPressed: () {
-            _onPressed();
-          }
+            ),
+            onPressed: () {
+              _onPressed();
+            }
+          )
         );
       }
     );
