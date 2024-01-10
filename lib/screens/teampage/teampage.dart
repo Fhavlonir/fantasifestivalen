@@ -292,7 +292,7 @@ class _TeamPageState extends State<TeamPage> {
                     DrawerHeader(
                       child: Container(),
                       decoration: BoxDecoration(
-                        image: const DecorationImage(image: AssetImage('images/fantasifestivalen_256.png')),
+                        image: const DecorationImage(image: AssetImage('assets/images/fantasifestivalen_256.png')),
                         color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
