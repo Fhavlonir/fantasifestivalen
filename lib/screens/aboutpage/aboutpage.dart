@@ -34,7 +34,7 @@ class AboutPage extends StatelessWidget {
                 child: ClipOval(
                   child: SizedBox.fromSize(     
                     size: Size.fromRadius(100), 
-                    child: CachedNetworkImage(imageUrl: 'https://pbs.twimg.com/profile_images/1373325891384786946/IkVLOrwN_400x400.jpg'),
+                    child: Image(image: AssetImage('images/fantasifestivalen_512.png')),
                   ),
                 ),
               ),
