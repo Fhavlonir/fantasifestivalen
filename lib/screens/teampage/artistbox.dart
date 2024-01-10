@@ -92,12 +92,12 @@ class _ArtistBoxState extends State<ArtistBox> {
             child: Container(
               constraints: BoxConstraints(maxWidth: 150, maxHeight: 150),
               child: AspectRatio(
-                aspectRatio: 1.0,
+                aspectRatio: 0.85,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: 32,
+                      height: 24,
                       child: Column(children: [
                         Expanded(child: Container()),
                         Text(
@@ -138,7 +138,7 @@ class _ArtistBoxState extends State<ArtistBox> {
                       )
                     ),
                     SizedBox(
-                      height: 16,
+                      height: 24,
                       child: editable? Text(
                         'Kostnad: '+(_cost?.toString()??'0'),
                         style: TextStyle(color: Theme.of(context).colorScheme.tertiary),

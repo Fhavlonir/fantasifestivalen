@@ -28,8 +28,9 @@ class ArtistPage extends StatelessWidget {
         child: Center( 
           child: Container( 
           constraints: BoxConstraints(maxWidth: 700),
-          child: ListView(
-            children: [
+          child: ListView( children: [
+	    Stack( children:[
+              Center(child: Padding(padding: EdgeInsets.all(48.0), child: const Image(image: const AssetImage('images/fantasifestivalen_512.png')))),
               Hero(tag: _artist.id,
                 child: Container(
                   constraints: const BoxConstraints(maxHeight: 500),
@@ -42,6 +43,7 @@ class ArtistPage extends StatelessWidget {
                   ),
                 ),
               ),
+	      ]),
               Container(
                 padding: const EdgeInsets.all(10.0),
                 child: Text(

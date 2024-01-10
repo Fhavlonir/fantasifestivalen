@@ -34,6 +34,7 @@ class ArtistOption extends StatelessWidget {
           height: 300,
           child: TextButton(
             child: Stack(children: [
+              Center(child: Padding(padding: EdgeInsets.all(24.0), child: const Image(image: const AssetImage('images/fantasifestivalen_512.png')))),
               Hero(
                 tag: _artist.id,
                 child: Container(

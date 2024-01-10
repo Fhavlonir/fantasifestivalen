@@ -62,24 +62,29 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Fantasifestivalen')),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
-        children: [
-          const Image(image: const AssetImage('assets/images/fantasifestivalen_512.png')),
-          const Text('Fantasifestivalen är som fantasy football för Melodifestivalen!\nVälj fem artister, och följ dem genom tävlingen. Beroende på hur det går för dem och vad de gör kommer du få olika mycket poäng i slutet.\n\nDen enda data som samlas in är din mailaddress och vilka artister du har i ditt lag.'),
-          const SizedBox(height: 18),
-          const Text('Taggad? Skriv in din mailaddress för att få en inloggningslänk:'),
-          const SizedBox(height: 18),
-          TextFormField(
-            controller: _emailController,
-            decoration: const InputDecoration(labelText: 'E-postaddress'),
-          ),
-          const SizedBox(height: 18),
-          ElevatedButton(
-            onPressed: _isLoading ? null : _signIn,
-            child: Text(_isLoading ? 'Laddar' : 'Skicka magisk länk'),
-          ),
-        ],
+      body: Center(
+        child: Container(
+      	  constraints: BoxConstraints(maxWidth: 512),
+      	  child: ListView(
+            padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
+            children: [
+              const Image(image: const AssetImage('images/fantasifestivalen_512.png')),
+              const Text('Fantasifestivalen är som fantasy football för Melodifestivalen!\nVälj fem artister, och följ dem genom tävlingen. Beroende på hur det går för dem och vad de gör kommer du få olika mycket poäng i slutet.\n\nDen enda data som samlas in är din mailaddress och vilka artister du har i ditt lag.'),
+              const SizedBox(height: 18),
+              const Text('Taggad? Skriv in din mailaddress för att få en inloggningslänk:'),
+              const SizedBox(height: 18),
+              TextFormField(
+                controller: _emailController,
+                decoration: const InputDecoration(labelText: 'E-postaddress'),
+              ),
+              const SizedBox(height: 18),
+              ElevatedButton(
+                onPressed: _isLoading ? null : _signIn,
+                child: Text(_isLoading ? 'Laddar' : 'Skicka magisk länk'),
+              ),
+            ],
+	  ),
+	),
       ),
     );
   }
