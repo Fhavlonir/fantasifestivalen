@@ -48248,7 +48248,7 @@ case 2:if(!b)throw A.c("Could not launch "+p.j(0))
 return A.F(null,r)}})
 return A.G($async$yD,r)},
 J(a){var s=null,r=t.p
-return A.oa(A.mZ(s,A.bi("Om appen",s,s,s,s,s,s)),A.o9(A.b([A.lp(A.b([A.bO(s,A.bi("Hej!",s,s,s,A.R(a).p3.a,s,s),B.l,s,s,s,s,s,new A.aE(10,10,10,10),s,s,s,s),A.bO(s,new A.K2(A.PS(new A.qa(new A.pf("images/fantasifestivalen_512.png"),s),new A.Q(200,200)),s),B.l,s,new A.ar(0,200,0,1/0),s,s,s,new A.aE(10,10,10,10),s,s,s,s),A.bO(s,A.lp(A.b([A.bi("Jag hoppas du gillar Fantasifestivalen! Jag som gjort den heter Philip Johansson, jag bor i Lund och pluggar p\xe5 LTH.\nAppen \xe4r publicerad under licensen GNU Affero General Public License version 3.\nDen \xe4r byggd med hj\xe4lp av Flutter, hostad med hj\xe4lp av Github Pages och Supabase.\nBilderna kommer fr\xe5n Wikimedia Commons, o\xe4ndliga tack till alla som bidragit med dessa, s\xe4rskilt Arkland och Jonatan Svensson Glad.\n\nOm du har fr\xe5gor eller feedback kan du kontakta mig p\xe5 philip@fantasifestivalen.se",s,s,s,s,s,s),A.f4(s,20,s),A.Dv(B.Tz,this.gads(),s)],r),B.an,B.aR,B.aH),B.l,s,new A.ar(0,400,0,1/0),s,s,s,new A.aE(10,10,10,10),s,s,s,s)],r),B.an,B.aR,B.aH)],r),B.an,B.tS,B.aH,s),s,s)}}
+return A.oa(A.mZ(s,A.bi("Om appen",s,s,s,s,s,s)),A.o9(A.b([A.lp(A.b([A.bO(s,A.bi("Hej!",s,s,s,A.R(a).p3.a,s,s),B.l,s,s,s,s,s,new A.aE(10,10,10,10),s,s,s,s),A.bO(s,new A.K2(A.PS(new A.qa(new A.pf("assets/images/fantasifestivalen_512.png"),s),new A.Q(200,200)),s),B.l,s,new A.ar(0,200,0,1/0),s,s,s,new A.aE(10,10,10,10),s,s,s,s),A.bO(s,A.lp(A.b([A.bi("Jag hoppas du gillar Fantasifestivalen! Jag som gjort den heter Philip Johansson, jag bor i Lund och pluggar p\xe5 LTH.\nAppen \xe4r publicerad under licensen GNU Affero General Public License version 3.\nDen \xe4r byggd med hj\xe4lp av Flutter, hostad med hj\xe4lp av Github Pages och Supabase.\nBilderna kommer fr\xe5n Wikimedia Commons, o\xe4ndliga tack till alla som bidragit med dessa, s\xe4rskilt Arkland och Jonatan Svensson Glad.\n\nOm du har fr\xe5gor eller feedback kan du kontakta mig p\xe5 philip@fantasifestivalen.se",s,s,s,s,s,s),A.f4(s,20,s),A.Dv(B.Tz,this.gads(),s)],r),B.an,B.aR,B.aH),B.l,s,new A.ar(0,400,0,1/0),s,s,s,new A.aE(10,10,10,10),s,s,s,s)],r),B.an,B.aR,B.aH)],r),B.an,B.tS,B.aH,s),s,s)}}
 A.pd.prototype={
 J(a){var s=null,r=this.d,q=r.b,p=A.mZ(s,A.bi(q,s,s,s,s,s,s)),o=A.dZ(new A.d3(new A.aE(48,48,48,48),B.jr,s),s,s),n=r.a,m=t.p
 m=A.dZ(A.bO(s,A.qq(A.b([A.ol(B.c8,A.b([o,A.M3(A.bO(s,s,B.l,s,B.AH,new A.cW(s,A.axt(new A.dt(0,-0.5),B.im,A.axj(r.x),s),s,s,s,s,B.aB),s,s,s,s,s,s,s),n,!1)],m),B.L,B.cu),A.bO(s,A.bi(r.w,s,s,s,A.R(a).p3.Q,s,s),B.l,s,s,s,s,s,s,B.j4,s,s,s),A.bO(s,A.bi(q,s,s,s,A.R(a).p3.c,s,s),B.l,s,s,s,s,s,s,B.j4,s,s,s),A.bO(s,A.bi(r.c,s,s,s,A.R(a).p3.e,s,s),B.l,s,s,s,s,s,s,B.j4,s,s,s),A.bO(s,A.bi("Kostnad: "+r.d,s,s,s,A.R(a).p3.f,s,s),B.l,s,s,s,s,s,s,B.j5,s,s,s),A.bO(s,A.bi("Delt\xe4vling: "+r.e,s,s,s,A.R(a).p3.r,s,s),B.l,s,s,s,s,s,s,B.j5,s,s,s),A.bO(s,A.bi("Startnummer: "+r.f,s,s,s,A.R(a).p3.r,s,s),B.l,s,s,s,s,s,s,B.j5,s,s,s),A.bO(s,A.bi(r.r,s,s,s,s,s,s),B.l,s,s,s,s,s,s,B.EA,s,s,s),A.f4(s,48,s),A.dZ(A.f4(A.tB(A.axN(A.b([r.a],t.t)),s,20),250,600),s,s),A.f4(s,48,s)],m),s,!1),B.l,s,new A.ar(0,700,0,1/0),s,s,s,s,s,s,s,s),s,s)
@@ -96728,7 +96728,7 @@ B.mZ=new A.pD(2,"initializedServices")
 B.DR=new A.pD(3,"initializingUi")
 B.DS=new A.pD(4,"initialized")
 B.DT=new A.a3s(1,"traversalOrder")
-B.A3=new A.pf("images/fantasifestivalen_256.png")
+B.A3=new A.pf("assets/images/fantasifestivalen_256.png")
 B.c0=new A.uC(3,"noRepeat")
 B.ck=new A.pU(1,"low")
 B.DU=new A.pE(B.A3,null,null,B.a6)
@@ -96957,7 +96957,7 @@ B.nC=new A.a94(0,"HtmlImage")
 B.Fy=new A.uC(0,"repeat")
 B.Fz=new A.uC(1,"repeatX")
 B.FA=new A.uC(2,"repeatY")
-B.A4=new A.pf("images/fantasifestivalen_512.png")
+B.A4=new A.pf("assets/images/fantasifestivalen_512.png")
 B.jr=new A.qa(B.A4,null)
 B.ay=A.b(s([]),t.oU)
 B.FC=new A.lP("\ufffc",null,null,!0,!0,B.ay)
