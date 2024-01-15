@@ -66,7 +66,7 @@ flutter:
   #assets:
   #   - images/fantasifestivalen_256.png
   #   - images/fantasifestivalen_512.png
-  #   - images/philip.png
+  #   - images/philip.jpg
   assets:
     - assets/images/
 

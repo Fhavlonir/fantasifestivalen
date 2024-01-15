@@ -34,7 +34,7 @@ class ArtistOption extends StatelessWidget {
           height: 300,
           child: TextButton(
 	    child: Container(
-            constraints: BoxConstraints(maxWidth:600),
+            constraints: BoxConstraints(maxWidth:500),
               child: Stack(
 	        children: [
                   Center(child: Padding(padding: EdgeInsets.all(24.0), child: const Image(image: const AssetImage('assets/images/fantasifestivalen_512.png')))),
@@ -45,7 +45,7 @@ class ArtistOption extends StatelessWidget {
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: CachedNetworkImageProvider(_artist.imgurl),
-                          alignment: Alignment(0,-0.5),
+                          alignment: Alignment(0,-0.75),
                         ),
                       ),
                       alignment: Alignment.bottomLeft,

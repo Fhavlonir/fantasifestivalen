@@ -68,7 +68,7 @@ class LeaderboardsPage extends StatelessWidget {
             color: Theme.of(context).colorScheme.primary,
             child: Padding(
               padding: EdgeInsets.all(16),
-                child: Text('Dessa är lagen som leder i Fantasifestivalen just nu!', 
+                child: Text('Dessa är lagen som leder i Fantasifestivalen just nu!\nTopplistan uppdateras efter varje program\nFör att kvalificera för tävlingen måste du ha skapat laget innan första programmet.', 
                 style: TextStyle(fontSize: 18, color: Theme.of(context).colorScheme.onPrimary)
               ),
             )
