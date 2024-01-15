@@ -48270,7 +48270,7 @@ case 2:if(!b)throw A.c("Could not launch "+p.j(0))
 return A.E(null,r)}})
 return A.F($async$yE,r)},
 J(a){var s=null,r=t.p
-return A.ob(A.n_(s,A.bi("Om appen",s,s,s,s,s,s)),A.oa(A.b([A.lp(A.b([A.bN(s,A.bi("Hej!",s,s,s,A.R(a).p3.a,s,s),B.l,s,s,s,s,s,new A.aE(10,10,10,10),s,s,s,s),A.bN(s,new A.K5(A.PU(new A.qb(new A.pg("assets/images/philip.png"),s),new A.Q(200,200)),s),B.l,s,new A.ar(0,200,0,1/0),s,s,s,new A.aE(10,10,10,10),s,s,s,s),A.bN(s,A.lp(A.b([A.bi("Jag hoppas du gillar Fantasifestivalen! Jag som gjort den heter Philip Johansson, jag bor i Lund och pluggar p\xe5 LTH.\nAppen \xe4r publicerad under licensen GNU Affero General Public License version 3.\nDen \xe4r byggd med hj\xe4lp av Flutter, hostad med hj\xe4lp av Github Pages och Supabase.\nBilderna kommer fr\xe5n Wikimedia Commons, o\xe4ndliga tack till alla som bidragit med dessa, s\xe4rskilt Arkland och Jonatan Svensson Glad.\n\nOm du har fr\xe5gor eller feedback kan du kontakta mig p\xe5 philip@fantasifestivalen.se",s,s,s,s,s,s),A.f5(s,20,s),A.Dy(B.Tz,this.gadv(),s)],r),B.an,B.aR,B.aH),B.l,s,new A.ar(0,400,0,1/0),s,s,s,new A.aE(10,10,10,10),s,s,s,s)],r),B.an,B.aR,B.aH)],r),B.an,B.tS,B.aH,s),s,s)}}
+return A.ob(A.n_(s,A.bi("Om appen",s,s,s,s,s,s)),A.oa(A.b([A.lp(A.b([A.bN(s,A.bi("Hej!",s,s,s,A.R(a).p3.a,s,s),B.l,s,s,s,s,s,new A.aE(10,10,10,10),s,s,s,s),A.bN(s,new A.K5(A.PU(new A.qb(new A.pg("assets/images/philip.jpg"),s),new A.Q(200,200)),s),B.l,s,new A.ar(0,200,0,1/0),s,s,s,new A.aE(10,10,10,10),s,s,s,s),A.bN(s,A.lp(A.b([A.bi("Jag hoppas du gillar Fantasifestivalen! Jag som gjort den heter Philip Johansson, jag bor i Lund och pluggar p\xe5 LTH.\nAppen \xe4r publicerad under licensen GNU Affero General Public License version 3.\nDen \xe4r byggd med hj\xe4lp av Flutter, hostad med hj\xe4lp av Github Pages och Supabase.\nBilderna kommer fr\xe5n Wikimedia Commons, o\xe4ndliga tack till alla som bidragit med dessa.\n\nOm du har fr\xe5gor eller feedback kan du kontakta mig p\xe5 philip@fantasifestivalen.se",s,s,s,s,s,s),A.f5(s,20,s),A.Dy(B.Tz,this.gadv(),s)],r),B.an,B.aR,B.aH),B.l,s,new A.ar(0,400,0,1/0),s,s,s,new A.aE(10,10,10,10),s,s,s,s)],r),B.an,B.aR,B.aH)],r),B.an,B.tS,B.aH,s),s,s)}}
 A.pe.prototype={
 J(a){var s=null,r=this.d,q=r.b,p=A.n_(s,A.bi(q,s,s,s,s,s,s)),o=A.dZ(new A.d3(new A.aE(48,48,48,48),B.js,s),s,s),n=r.a,m=t.p
 m=A.dZ(A.bN(s,A.qr(A.b([A.om(B.c8,A.b([o,A.M6(A.bN(s,s,B.l,s,B.AH,new A.cW(s,A.axw(new A.du(0,-0.5),B.io,A.axm(r.x),s),s,s,s,s,B.aB),s,s,s,s,s,s,s),n,!1)],m),B.L,B.cu),A.bN(s,A.bi(r.w,s,s,s,A.R(a).p3.Q,s,s),B.l,s,s,s,s,s,s,B.j5,s,s,s),A.bN(s,A.bi(q,s,s,s,A.R(a).p3.c,s,s),B.l,s,s,s,s,s,s,B.j5,s,s,s),A.bN(s,A.bi(r.c,s,s,s,A.R(a).p3.e,s,s),B.l,s,s,s,s,s,s,B.j5,s,s,s),A.bN(s,A.bi("Kostnad: "+r.d,s,s,s,A.R(a).p3.f,s,s),B.l,s,s,s,s,s,s,B.j6,s,s,s),A.bN(s,A.bi("Delt\xe4vling: "+r.e,s,s,s,A.R(a).p3.r,s,s),B.l,s,s,s,s,s,s,B.j6,s,s,s),A.bN(s,A.bi("Startnummer: "+r.f,s,s,s,A.R(a).p3.r,s,s),B.l,s,s,s,s,s,s,B.j6,s,s,s),A.bN(s,A.bi(r.r,s,s,s,s,s,s),B.l,s,s,s,s,s,s,B.EA,s,s,s),A.f5(s,48,s),A.dZ(A.f5(A.tB(A.axQ(A.b([r.a],t.t)),s,20),250,600),s,s),A.f5(s,48,s)],m),s,!1),B.l,s,new A.ar(0,700,0,1/0),s,s,s,s,s,s,s,s),s,s)
@@ -48299,10 +48299,10 @@ $2(a,b){var s,r,q,p,o,n=null,m=b.b
 if(m==null)m=A.a0O(0,"Laddar...","",0,0,0,"","","",A.ef(0,!1))
 s=A.dZ(new A.d3(new A.aE(24,24,24,24),B.js,n),n,n)
 r=m.a
-q=A.axw(new A.du(0,-0.5),B.io,A.axm(m.x),n)
+q=A.axw(new A.du(0,-0.75),B.io,A.axm(m.x),n)
 p=A.b([A.W(0,255,255,255),B.iA,B.iA],t.t_)
 o=t.p
-return A.f5(A.Dy(A.bN(n,A.om(B.c8,A.b([s,A.M6(A.bN(B.zX,A.bN(n,A.bN(n,A.oa(A.b([A.bi(m.b,n,n,n,A.R(a).p3.r,n,n),A.bi(B.e.j(m.d),n,n,n,A.R(a).p3.e,n,n)],o),B.an,B.JG,B.aH,n),B.l,n,n,n,n,n,new A.aE(10,10,10,10),n,n,n,n),B.l,n,n,new A.cW(n,n,n,n,n,new A.uS(B.lx,B.lw,B.dw,p,n,n),B.aB),n,n,n,n,n,n,n),B.l,n,n,new A.cW(n,q,n,n,n,n,B.aB),n,n,n,n,n,n,n),r,!1)],o),B.L,B.cu),B.l,n,new A.ar(0,600,0,1/0),n,n,n,n,n,n,n,n),new A.a0P(a,m),A.JF(n,n,n,n,n,n,n,n,n,n,n,n,n,new A.bR(B.aE,t.C4),n,n,n,n,n,n,n,n)),300,n)},
+return A.f5(A.Dy(A.bN(n,A.om(B.c8,A.b([s,A.M6(A.bN(B.zX,A.bN(n,A.bN(n,A.oa(A.b([A.bi(m.b,n,n,n,A.R(a).p3.r,n,n),A.bi(B.e.j(m.d),n,n,n,A.R(a).p3.e,n,n)],o),B.an,B.JG,B.aH,n),B.l,n,n,n,n,n,new A.aE(10,10,10,10),n,n,n,n),B.l,n,n,new A.cW(n,n,n,n,n,new A.uS(B.lx,B.lw,B.dw,p,n,n),B.aB),n,n,n,n,n,n,n),B.l,n,n,new A.cW(n,q,n,n,n,n,B.aB),n,n,n,n,n,n,n),r,!1)],o),B.L,B.cu),B.l,n,new A.ar(0,500,0,1/0),n,n,n,n,n,n,n,n),new A.a0P(a,m),A.JF(n,n,n,n,n,n,n,n,n,n,n,n,n,new A.bR(B.aE,t.C4),n,n,n,n,n,n,n,n)),300,n)},
 $S:247}
 A.a0P.prototype={
 $0(){A.avm(this.a,this.b)},
@@ -48358,7 +48358,7 @@ s.push(new A.pC(A.b([new A.nf(n),new A.nf(A.bi(o,m,m,m,m,m,m))],q)))}return A.aC
 $S:250}
 A.uQ.prototype={
 J(a){var s=null,r=A.n_(s,A.bi("Topplista",s,s,s,s,s,s)),q=A.R(a)
-return A.ob(r,A.qr(A.b([A.dZ(A.tB(new A.d3(new A.aE(16,16,16,16),A.bi("Dessa \xe4r lagen som leder i Fantasifestivalen just nu!",s,s,s,A.fE(s,s,A.R(a).ax.c,s,s,s,s,s,s,s,s,18,s,s,s,s,s,!0,s,s,s,s,s,s,s,s),s,s),s),q.ax.b,s),s,s),new A.MO(s)],t.p),s,!0),s,s)}}
+return A.ob(r,A.qr(A.b([A.dZ(A.tB(new A.d3(new A.aE(16,16,16,16),A.bi("Dessa \xe4r lagen som leder i Fantasifestivalen just nu!\nTopplistan uppdateras efter varje program\nF\xf6r att kvalificera f\xf6r t\xe4vlingen m\xe5ste du ha skapat laget innan f\xf6rsta programmet.",s,s,s,A.fE(s,s,A.R(a).ax.c,s,s,s,s,s,s,s,s,18,s,s,s,s,s,!0,s,s,s,s,s,s,s,s),s,s),s),q.ax.b,s),s,s),new A.MO(s)],t.p),s,!0),s,s)}}
 A.p9.prototype={
 aj(){return new A.Ec(B.i)}}
 A.Ec.prototype={
