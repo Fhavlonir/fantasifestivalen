@@ -65,45 +65,54 @@ class _TeamPageState extends State<TeamPage> {
   }
 
   Future<bool> _updateEvents() async {
-      try {
-        Event? latest = await isar.events.where().sortByTimestampDesc().findFirst();
-        late final eventResponse;
-        if(latest!=null){
-          eventResponse = await supabase
-            .from('events')
-            .select(
-                'id, created_at, artist, rule, comment')
-            .gt('created_at', latest.timestamp.toUtc().add(const Duration(seconds: 1)))
-            .execute();
-        } else {
-          eventResponse = await supabase
-            .from('events')
-            .select(
-                'id, created_at, artist, rule, comment')
-            .execute();
-        }
-        final eventData = eventResponse.data;
-        if (eventData != null) {
-          await isar.writeTxn((isar) async {
-            for (int i = 0; i < eventData.length; i++) {
-              Event event = Event(
-                eventData[i]['id'],
-                eventData[i]['comment']??'',
-                DateTime.parse(eventData[i]['created_at']),
-              );
-              await isar.events.put( event );
-              event.artist.value = await isar.artists.get(eventData[i]['artist'].toInt());
-              await event.artist.save();
-              event.rule.value = await isar.rules.get(eventData[i]['rule'].toInt());
-              await event.rule.save();
-            }
-          });
-          _updateScore();
-        }
-      } catch (error) {
-        context.showErrorSnackBar(message: 'Ett oväntat fel uppstod');
-        print(error);
+    //Delete old events (pre-latest new years day):
+    await isar.writeTxn((isar) async {
+      final now = DateTime.now();
+      final List<Event> oldEvents = await isar.events.where().timestampLessThan(DateTime.utc(now.year,1,1)).findAll();
+      for (int i = 0; i < oldEvents.length; i++) {
+        final Event e = oldEvents[i];
+        isar.events.delete(e.id);
       }
+    });
+    try {
+      Event? latest = await isar.events.where().sortByTimestampDesc().findFirst();
+      late final eventResponse;
+      if(latest!=null){
+        eventResponse = await supabase
+          .from('events')
+          .select(
+              'id, created_at, artist, rule, comment')
+          .gt('created_at', latest.timestamp.toUtc().add(const Duration(seconds: 1)))
+          .execute();
+      } else {
+        eventResponse = await supabase
+          .from('events')
+          .select(
+              'id, created_at, artist, rule, comment')
+          .execute();
+      }
+      final eventData = eventResponse.data;
+      if (eventData != null) {
+        await isar.writeTxn((isar) async {
+          for (int i = 0; i < eventData.length; i++) {
+            Event event = Event(
+              eventData[i]['id'],
+              eventData[i]['comment']??'',
+              DateTime.parse(eventData[i]['created_at']),
+            );
+            await isar.events.put( event );
+            event.artist.value = await isar.artists.get(eventData[i]['artist'].toInt());
+            await event.artist.save();
+            event.rule.value = await isar.rules.get(eventData[i]['rule'].toInt());
+            await event.rule.save();
+          }
+        });
+        _updateScore();
+      }
+    } catch (error) {
+      context.showErrorSnackBar(message: 'Ett oväntat fel uppstod');
+      print(error);
+    }
     return Future.value(true);
   }
 

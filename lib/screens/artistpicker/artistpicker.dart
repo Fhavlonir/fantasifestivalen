@@ -33,47 +33,52 @@ class ArtistOption extends StatelessWidget {
         return SizedBox(
           height: 300,
           child: TextButton(
-            child: Stack(children: [
-              Center(child: Padding(padding: EdgeInsets.all(24.0), child: const Image(image: const AssetImage('assets/images/fantasifestivalen_512.png')))),
-              Hero(
-                tag: _artist.id,
-                child: Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: CachedNetworkImageProvider(_artist.imgurl),
-                      alignment: Alignment(0,-0.5),
-                    ),
-                  ),
-                  alignment: Alignment.bottomLeft,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Colors.white.withAlpha(0),
-                          Colors.white38,
-                          Colors.white38
-                        ]
-                      )
-                    ),
+	    child: Container(
+            constraints: BoxConstraints(maxWidth:600),
+              child: Stack(
+	        children: [
+                  Center(child: Padding(padding: EdgeInsets.all(24.0), child: const Image(image: const AssetImage('assets/images/fantasifestivalen_512.png')))),
+                  Hero(
+                    tag: _artist.id,
                     child: Container(
-                      margin: EdgeInsets.all(10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(_artist.name,
-                            style: Theme.of(context).textTheme.headline6),
-                          Text(_artist.cost.toString(),
-                            style: Theme.of(context).textTheme.headline4)
-                        ]
-                      )
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: CachedNetworkImageProvider(_artist.imgurl),
+                          alignment: Alignment(0,-0.5),
+                        ),
+                      ),
+                      alignment: Alignment.bottomLeft,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.white.withAlpha(0),
+                              Colors.white38,
+                              Colors.white38
+                            ]
+                          )
+                        ),
+                        child: Container(
+                          margin: EdgeInsets.all(10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(_artist.name,
+                                style: Theme.of(context).textTheme.headline6),
+                              Text(_artist.cost.toString(),
+                                style: Theme.of(context).textTheme.headline4)
+                            ]
+                          )
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ]),
+                ]
+	      )
+	    ),
             style: ButtonStyle(
                 padding: MaterialStateProperty.all<EdgeInsets>(
                     const EdgeInsets.all(0))),
@@ -104,7 +109,6 @@ class ArtistPicker extends StatelessWidget {
         child: Container(
           child: Center(
             child: Container(
-              constraints: BoxConstraints(maxWidth:600),
               child: ListView(
                 children:
                   List<int>.generate(28, (index) => index + 1, growable: false)
