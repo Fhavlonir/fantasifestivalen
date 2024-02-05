@@ -86,7 +86,7 @@ class _ArtistBoxState extends State<ArtistBox> {
     return FutureBuilder(
       future: Future.wait([updateBox()]),
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) { 
-        return Card(
+        return Stack(children:[Card(
           color: Theme.of(context).colorScheme.primary,
           child: TextButton(
             child: Container(
@@ -155,7 +155,14 @@ class _ArtistBoxState extends State<ArtistBox> {
               _onPressed();
             }
           )
-        );
+        ),
+        (editable && artist!=null) ? CircleAvatar(
+	  child: Text(
+	    artist?.heat.toString()??''
+	  ),
+          backgroundColor: Theme.of(context).colorScheme.secondary,
+	):Container()
+	]);
       }
     );
   }

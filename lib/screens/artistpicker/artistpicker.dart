@@ -55,15 +55,29 @@ class ArtistOption extends StatelessWidget {
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
                             colors: [
-                              Colors.white.withAlpha(0),
-                              Colors.white38,
-                              Colors.white38
+                              Colors.pink.shade50.withAlpha(0),
+                              Colors.pink.shade50.withAlpha(0),
+                              Colors.pink.shade50
                             ]
                           )
                         ),
                         child: Container(
-                          margin: EdgeInsets.all(10),
-                          child: Row(
+                        margin: EdgeInsets.all(10),
+			child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+			  children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CircleAvatar(
+                                child: Text(_artist.heat.toString(),
+                                  style: Theme.of(context).textTheme.headline6
+				),
+                                backgroundColor: Theme.of(context).colorScheme.secondary,
+                              ),
+                            ]
+                          ),
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(_artist.name,
@@ -71,8 +85,8 @@ class ArtistOption extends StatelessWidget {
                               Text(_artist.cost.toString(),
                                 style: Theme.of(context).textTheme.headline4)
                             ]
-                          )
                         ),
+			],))
                       ),
                     ),
                   ),
@@ -111,7 +125,7 @@ class ArtistPicker extends StatelessWidget {
             child: Container(
               child: ListView(
                 children:
-                  List<int>.generate(28, (index) => index + 1, growable: false)
+                  List<int>.generate(30, (index) => index + 1, growable: false) // TODO: De-hardcode number of artists
                     .map((id) => ArtistOption(id))
                     .toList(),
               )
