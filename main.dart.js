@@ -49005,7 +49005,7 @@ $2(a,b){var s,r,q,p,o,n,m,l,k,j=null
 if(b.a!==B.d5)return B.m8
 else{s=A.ayZ(j,j,j,j,j,j,j,j,j,j,j,j,j,B.k,j,j,j,j,B.Rc,j)
 r=this.a
-q=r.as?A.bd("Mellocash: 100",j,j,j,j,j,j):A.bd("Po\xe4ngsumma: "+r.f,j,j,j,j,j,j)
+q=r.as?A.bd("Mellocash: 100",j,j,j,A.R(a).p3.r,j,j):A.bd("Po\xe4ngsumma: "+r.f,j,j,j,A.R(a).p3.r,j,j)
 p=t.p
 s=A.n1(A.b([A.Dy(q,new A.asP(),s)],p),B.kQ)
 q=A.bL(j,j,B.l,j,j,j,j,j,j,j,j,j,j)
