@@ -289,8 +289,10 @@ class _TeamPageState extends State<TeamPage> {
                     onPressed: () {
                     },
                     child: _editable? 
-                      Text("Mellocash: $_cash"):
-                      Text("Poängsumma: $_pointsTotal"),
+                      Text("Mellocash: $_cash",
+                              style: Theme.of(context).textTheme.headline6,):
+                      Text("Poängsumma: $_pointsTotal", 
+                              style: Theme.of(context).textTheme.headline6,)
                   )
                 ],
               ),
