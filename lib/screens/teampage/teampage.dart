@@ -31,7 +31,7 @@ class _TeamPageState extends State<TeamPage> {
   bool _updatedTeam = false;
   bool _editable = true;
   Timer? shorttimer;
-  Timer? longtimer;
+  DateTime _artistsLastUpdated=DateTime.fromMillisecondsSinceEpoch(0);
 
   @override
   void initState() {
@@ -159,7 +159,7 @@ class _TeamPageState extends State<TeamPage> {
     return Future.value(true);
   }
   Future<bool> _updateArtists() async {
-    if (!_updatedArtists) {
+    if (DateTime.now().difference(_artistsLastUpdated).inMinutes>60) {
       try {
         Artist? latest = await isar.artists.where().sortByTimestampDesc().findFirst();
         late final artistResponse;
@@ -201,7 +201,7 @@ class _TeamPageState extends State<TeamPage> {
       } catch (error) {
         context.showErrorSnackBar(message: 'Ett oväntat fel uppstod: $error');
       }
-      _updatedArtists = true;
+      _artistsLastUpdated = DateTime.now();
     }
     return Future.value(true);
   }
@@ -265,7 +265,6 @@ class _TeamPageState extends State<TeamPage> {
 
   @override
   Widget build(BuildContext context) {
-    longtimer = Timer.periodic(Duration(hours: 1), (Timer t) => _updatedArtists=false);
     return FutureBuilder(
         future: _updateAll() ,
         builder: (
