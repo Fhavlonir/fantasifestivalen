@@ -30,11 +30,15 @@ class _LoginPageState extends State<LoginPage> {
             kIsWeb ? null : 'se.fantasifestivalen.fantasifestivalen://login-callback/',
         );
         if (mounted) {
-          context.showSnackBar(message: 'Kolla mailen för inloggningslänk!');
+          context.showSnackBar(message: 'Kolla din e-post för inloggningslänk!');
           _emailController.clear();
         }
     } on AuthException catch (error) {
-      context.showErrorSnackBar(message: error.message);
+      if (_emailController.text=='') {
+        context.showErrorSnackBar(message: 'Skriv in din e-postaddress först!');
+      } else {
+        context.showErrorSnackBar(message: error.message);
+      }
     } catch (error) {
       context.showErrorSnackBar(message: 'Ett oväntat fel uppstod');
     }
@@ -71,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
               const Image(image: const AssetImage('assets/images/fantasifestivalen_512.png')),
               const Text('Fantasifestivalen är som fantasy football för Melodifestivalen!\nVälj fem artister, och följ dem genom tävlingen. Beroende på hur det går för dem och vad de gör kommer du få olika mycket poäng i slutet.\n\nDen enda data som samlas in är din mailaddress och vilka artister du har i ditt lag.'),
               const SizedBox(height: 18),
-              const Text('Taggad? Skriv in din mailaddress för att få en inloggningslänk:'),
+              const Text('Taggad? Skriv in din e-postaddress för att få en inloggningslänk:'),
               const SizedBox(height: 18),
               TextFormField(
                 controller: _emailController,

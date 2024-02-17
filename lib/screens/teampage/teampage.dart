@@ -30,7 +30,8 @@ class _TeamPageState extends State<TeamPage> {
   bool _updatedRules = false;
   bool _updatedTeam = false;
   bool _editable = true;
-  Timer? timer;
+  Timer? shorttimer;
+  Timer? longtimer;
 
   @override
   void initState() {
@@ -67,8 +68,7 @@ class _TeamPageState extends State<TeamPage> {
   Future<bool> _updateEvents() async {
     //Delete old events (pre-latest new years day):
     await isar.writeTxn((isar) async {
-      final now = DateTime.now();
-      final List<Event> oldEvents = await isar.events.where().timestampLessThan(DateTime.utc(now.year,1,1)).findAll();
+      final List<Event> oldEvents = await isar.events.where().timestampLessThan(DateTime.utc(DateTime.now().year,1,1)).findAll();
       for (int i = 0; i < oldEvents.length; i++) {
         final Event e = oldEvents[i];
         isar.events.delete(e.id);
@@ -110,8 +110,7 @@ class _TeamPageState extends State<TeamPage> {
         _updateScore();
       }
     } catch (error) {
-      context.showErrorSnackBar(message: 'Ett oväntat fel uppstod');
-      print(error);
+      context.showErrorSnackBar(message: 'Ett oväntat fel uppstod: $error');
     }
     return Future.value(true);
   }
@@ -153,8 +152,7 @@ class _TeamPageState extends State<TeamPage> {
           });
         }
       } catch (error) {
-        context.showErrorSnackBar(message: 'Ett oväntat fel uppstod');
-        print(error);
+        context.showErrorSnackBar(message: 'Ett oväntat fel uppstod: $error');
       }
       _updatedRules = true;
     }
@@ -201,8 +199,7 @@ class _TeamPageState extends State<TeamPage> {
           });
         }
       } catch (error) {
-        context.showErrorSnackBar(message: 'Ett oväntat fel uppstod');
-        print(error);
+        context.showErrorSnackBar(message: 'Ett oväntat fel uppstod: $error');
       }
       _updatedArtists = true;
     }
@@ -245,8 +242,7 @@ class _TeamPageState extends State<TeamPage> {
           }
         }
       } catch (error) {
-        context.showErrorSnackBar(message: 'Ett oväntat fel uppstod när laget uppdaterades');
-        print(error);
+        context.showErrorSnackBar(message: 'Ett oväntat fel uppstod när laget uppdaterades: $error');
       }
       _updatedTeam = true;
     }
@@ -263,12 +259,13 @@ class _TeamPageState extends State<TeamPage> {
       _updateScore(),
       _updateCost(refresh: false),
     ]);
-    timer = Timer.periodic(Duration(seconds: 10), (Timer t) => _updateEvents());
+    shorttimer = Timer.periodic(Duration(seconds: 10), (Timer t) => _updateEvents());
     return Future.value(true);
   }
 
   @override
   Widget build(BuildContext context) {
+    longtimer = Timer.periodic(Duration(hours: 1), (Timer t) => _updatedArtists=false);
     return FutureBuilder(
         future: _updateAll() ,
         builder: (
