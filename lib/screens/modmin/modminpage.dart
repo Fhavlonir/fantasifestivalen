@@ -118,10 +118,10 @@ class _ModminState extends State<ModminPage> {
         children: [
           const SizedBox(height: 18),
           Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children:[
           DropdownMenu<int>(
-            width:200,
+            width: .4*MediaQuery.of(context).size.width,
             initialSelection: 1,
             controller: heatController,
             requestFocusOnTap: true,
@@ -145,7 +145,7 @@ class _ModminState extends State<ModminPage> {
           ),
           const SizedBox(width: 18),
           DropdownMenu<int>(
-            width:200,
+            width: .4*MediaQuery.of(context).size.width,
             initialSelection: 1,
             controller: artistController,
             requestFocusOnTap: true,
@@ -162,7 +162,7 @@ class _ModminState extends State<ModminPage> {
           Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children:[DropdownMenu<int>(
-            width:400,
+            width: .91*MediaQuery.of(context).size.width,
             initialSelection: 1,
             controller: ruleController,
             requestFocusOnTap: true,
