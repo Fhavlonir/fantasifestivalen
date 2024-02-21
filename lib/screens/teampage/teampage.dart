@@ -280,7 +280,7 @@ class _TeamPageState extends State<TeamPage> {
                 actions: <Widget>[
                   TextButton(
                     style: TextButton.styleFrom(
-                        primary: Colors.white,
+                        //primary: Colors.white,
                         textStyle: const TextStyle(fontSize: 20)),
                     onPressed: () {
                     },

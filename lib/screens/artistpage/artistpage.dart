@@ -29,8 +29,13 @@ class ArtistPage extends StatelessWidget {
           child: Container( 
           constraints: BoxConstraints(maxWidth: 700),
           child: ListView( children: [
-	    Stack( children:[
-              Center(child: Padding(padding: EdgeInsets.all(48.0), child: const Image(image: const AssetImage('assets/images/fantasifestivalen_512.png')))),
+	        Stack( children:[
+              Center(child: Padding(
+                padding: EdgeInsets.all(48.0),
+                child: const Image(image: 
+                  const AssetImage('assets/images/fantasifestivalen_512.png')
+                )
+              )),
               Hero(tag: _artist.id,
                 child: Container(
                   constraints: const BoxConstraints(maxHeight: 500),

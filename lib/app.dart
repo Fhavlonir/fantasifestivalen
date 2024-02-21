@@ -46,6 +46,7 @@ class Rule {
 class Event {
   int id;
   final artist = IsarLink<Artist>();
+  @Index()
   final rule   = IsarLink<Rule>();
   String comment;
   @Index()
