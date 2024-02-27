@@ -31,10 +31,14 @@ class _TeamPageState extends State<TeamPage> {
   bool _updatedTeam = false;
   bool _editable = true;
   Timer? shorttimer;
+  DateTime _eventsLastUpdated=DateTime.fromMillisecondsSinceEpoch(0);
   DateTime _artistsLastUpdated=DateTime.fromMillisecondsSinceEpoch(0);
 
   @override
   void initState() {
+    if (shorttimer == null){
+      shorttimer = Timer.periodic(Duration(seconds: 10), (Timer t) => _updateEvents());
+    }
     super.initState();
   }
   
@@ -66,57 +70,63 @@ class _TeamPageState extends State<TeamPage> {
   }
 
   Future<bool> _updateEvents() async {
-    //Delete old events (pre-latest new years day):
-    await isar.writeTxn((isar) async {
-      final List<Event> oldEvents = await isar.events.where().timestampLessThan(DateTime.utc(DateTime.now().year,1,1)).findAll();
-      for (int i = 0; i < oldEvents.length; i++) {
-        final Event e = oldEvents[i];
-        isar.events.delete(e.id);
+    if (DateTime.now().difference(_eventsLastUpdated).inSeconds>10) {
+      _eventsLastUpdated = DateTime.now();
+      print("Updating events!");
+      //Delete old events (pre-latest new years day):
+      await isar.writeTxn((isar) async {
+        final List<Event> oldEvents = await isar.events.where().timestampLessThan(DateTime.utc(DateTime.now().year,1,1)).findAll();
+        for (int i = 0; i < oldEvents.length; i++) {
+          final Event e = oldEvents[i];
+          isar.events.delete(e.id);
+        }
+      });
+      try {
+        Event? latest = await isar.events.where().sortByTimestampDesc().findFirst();
+        late final eventResponse;
+        if(latest!=null){
+          eventResponse = await supabase
+            .from('events')
+            .select(
+                'id, created_at, artist, rule, comment')
+            .gt('created_at', latest.timestamp.toUtc().add(const Duration(seconds: 1)))
+            .execute();
+        } else {
+          eventResponse = await supabase
+            .from('events')
+            .select(
+                'id, created_at, artist, rule, comment')
+            .execute();
+        }
+        final eventData = eventResponse.data;
+        if (eventData != null) {
+          await isar.writeTxn((isar) async {
+            for (int i = 0; i < eventData.length; i++) {
+              Event event = Event(
+                eventData[i]['id'],
+                eventData[i]['comment']??'',
+                DateTime.parse(eventData[i]['created_at']),
+              );
+              await isar.events.put( event );
+              event.artist.value = await isar.artists.get(eventData[i]['artist'].toInt());
+              await event.artist.save();
+              event.rule.value = await isar.rules.get(eventData[i]['rule'].toInt());
+              await event.rule.save();
+            }
+          });
+          _updateScore();
+        }
+      } catch (error) {
+        context.showErrorSnackBar(message: 'Ett oväntat fel uppstod: $error');
       }
-    });
-    try {
-      Event? latest = await isar.events.where().sortByTimestampDesc().findFirst();
-      late final eventResponse;
-      if(latest!=null){
-        eventResponse = await supabase
-          .from('events')
-          .select(
-              'id, created_at, artist, rule, comment')
-          .gt('created_at', latest.timestamp.toUtc().add(const Duration(seconds: 1)))
-          .execute();
-      } else {
-        eventResponse = await supabase
-          .from('events')
-          .select(
-              'id, created_at, artist, rule, comment')
-          .execute();
-      }
-      final eventData = eventResponse.data;
-      if (eventData != null) {
-        await isar.writeTxn((isar) async {
-          for (int i = 0; i < eventData.length; i++) {
-            Event event = Event(
-              eventData[i]['id'],
-              eventData[i]['comment']??'',
-              DateTime.parse(eventData[i]['created_at']),
-            );
-            await isar.events.put( event );
-            event.artist.value = await isar.artists.get(eventData[i]['artist'].toInt());
-            await event.artist.save();
-            event.rule.value = await isar.rules.get(eventData[i]['rule'].toInt());
-            await event.rule.save();
-          }
-        });
-        _updateScore();
-      }
-    } catch (error) {
-      context.showErrorSnackBar(message: 'Ett oväntat fel uppstod: $error');
     }
     return Future.value(true);
   }
 
   Future<bool> _updateRules() async {
-    if (!_updatedRules) {
+    print("Attempting to update rules!");
+    if (DateTime.now().difference(_artistsLastUpdated).inMinutes>60) {
+      print("Updating rules...");
       try {
         Rule? latest = await isar.rules.where().sortByTimestampDesc().findFirst();
         late final ruleResponse;
@@ -159,7 +169,9 @@ class _TeamPageState extends State<TeamPage> {
     return Future.value(true);
   }
   Future<bool> _updateArtists() async {
+    print("Attempting to update artists!");
     if (DateTime.now().difference(_artistsLastUpdated).inMinutes>60) {
+      print("Updating artists...");
       try {
         Artist? latest = await isar.artists.where().sortByTimestampDesc().findFirst();
         late final artistResponse;
@@ -203,26 +215,31 @@ class _TeamPageState extends State<TeamPage> {
       }
       _artistsLastUpdated = DateTime.now();
     }
+    _artistsLastUpdated = DateTime.now();
     return Future.value(true);
   }
 
   Future<void> _updateCost({required bool refresh}) async {
-    List<Artist?> artists = [];
-    List<Future<Artist?>> futures = [];
-    for (int id in team.getTeamIds()) {
-      futures.add(isar.artists.get(id));
+    if(_editable){
+      List<Artist?> artists = [];
+      List<Future<Artist?>> futures = [];
+      for (int id in team.getTeamIds()) {
+        futures.add(isar.artists.get(id));
+      }
+      artists = await Future.wait(futures);
+      int cost = 0;
+      for (Artist? a in artists) {
+        cost += a?.cost.toInt()??0;
+      }
+      refresh?setState(() {_totalCost = cost;}):
+      _totalCost = cost;
     }
-    artists = await Future.wait(futures);
-    int cost = 0;
-    for (Artist? a in artists) {
-      cost += a?.cost.toInt()??0;
-    }
-    refresh?setState(() {_totalCost = cost;}):
-    _totalCost = cost;
   }
 
   Future<bool> _updateTeam() async {
+    print("Attempting to update team!");
     if (!_updatedTeam) {
+      print("Updating team...");
       try {
         final teamResponse = await supabase.from('teams')
           .select('team_ids, team_name')
@@ -253,13 +270,14 @@ class _TeamPageState extends State<TeamPage> {
       _updateArtists(),
       _updateRules(),
     ]);
-    await Future.wait(<Future>[
-      _updateTeam(),
-      _updateEvents(),
-      _updateScore(),
-      _updateCost(refresh: false),
-    ]);
-    shorttimer = Timer.periodic(Duration(seconds: 10), (Timer t) => _updateEvents());
+    if (DateTime.now().difference(_eventsLastUpdated).inSeconds>10) {
+      await Future.wait(<Future>[
+        _updateTeam(),
+        _updateEvents(),
+        _updateScore(),
+        _updateCost(refresh: false),
+      ]);
+    }
     return Future.value(true);
   }
 
