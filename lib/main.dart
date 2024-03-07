@@ -6,8 +6,8 @@ import 'app.dart';
 import 'utils/constants.dart';
 
 void main() async {
- isar = await Isar.open(schemas: [ArtistSchema, RuleSchema, EventSchema]);
- WidgetsFlutterBinding.ensureInitialized();
+  isar = await Isar.open(schemas: [ArtistSchema, RuleSchema, EventSchema]);
+  WidgetsFlutterBinding.ensureInitialized();
   await Supabase.initialize(
       url: 'https://tquhibsbxumaqfttipmr.supabase.co',
       anonKey:

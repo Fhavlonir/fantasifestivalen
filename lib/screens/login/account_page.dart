@@ -16,16 +16,14 @@ class _AccountPageState extends State<AccountPage> {
   var _isModmin = false;
 
   Future<void> _modminCheck() async {
-    var _modminResponse = await supabase
-      .from('modmins')
-      .select(
-          'id')
-      .execute();
-    setState((){_isModmin = (_modminResponse.data.length>0);});
+    var _modminResponse = await supabase.from('modmins').select('id').execute();
+    setState(() {
+      _isModmin = (_modminResponse.data.length > 0);
+    });
   }
-  
+
   Future<void> _signOut() async {
-    try { 
+    try {
       await supabase.auth.signOut();
     } on AuthException catch (error) {
       context.showErrorSnackBar(message: error.message);
@@ -56,14 +54,15 @@ class _AccountPageState extends State<AccountPage> {
         padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
         children: [
           const SizedBox(height: 18),
-
-          _isModmin?ElevatedButton(onPressed: (){
-            Navigator.pop(context);
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ModminPage()));
-          }, child: const Text('Modmin')):SizedBox.shrink(),
+          _isModmin
+              ? ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => ModminPage()));
+                  },
+                  child: const Text('Modmin'))
+              : SizedBox.shrink(),
           const SizedBox(height: 18),
           ElevatedButton(onPressed: _signOut, child: const Text('Logga Ut')),
           const SizedBox(height: 18),

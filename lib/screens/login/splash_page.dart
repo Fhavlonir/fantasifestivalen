@@ -11,14 +11,14 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   bool _redirectCalled = false;
-  
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _redirect();
   }
-  
-  Future<void> _redirect() async{
+
+  Future<void> _redirect() async {
     await Future.delayed(Duration.zero);
     if (_redirectCalled || !mounted) {
       return;

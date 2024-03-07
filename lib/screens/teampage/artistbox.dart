@@ -12,11 +12,12 @@ class ArtistBox extends StatefulWidget {
   final Team team;
   final bool editable;
   final VoidCallback updateBox;
-  const ArtistBox(this.position, this.team, this.editable, this.updateBox, { super.key });
+  const ArtistBox(this.position, this.team, this.editable, this.updateBox,
+      {super.key});
 
   @override
-  State<ArtistBox> createState() => _ArtistBoxState(); 
-} 
+  State<ArtistBox> createState() => _ArtistBoxState();
+}
 
 class _ArtistBoxState extends State<ArtistBox> {
   Artist? artist;
@@ -24,10 +25,11 @@ class _ArtistBoxState extends State<ArtistBox> {
   int? _cost;
 
   Future<void> updateBox() async {
-    Artist? result = await isar.artists.get(widget.team.getArtistId(widget.position));
+    Artist? result =
+        await isar.artists.get(widget.team.getArtistId(widget.position));
     artist = result;
-    _cost = artist?.cost??0;
-    if(!widget.editable){
+    _cost = artist?.cost ?? 0;
+    if (!widget.editable) {
       await updateScore();
     }
   }
@@ -36,25 +38,26 @@ class _ArtistBoxState extends State<ArtistBox> {
     int score = 0;
     List<Event> allEvents = [];
     List<Future> loadAllEvents = [];
-    for (Event e in await isar.events.where().findAll()){
+    for (Event e in await isar.events.where().findAll()) {
       allEvents.add(e);
       loadAllEvents.add(e.artist.load());
     }
     await Future.wait(loadAllEvents);
     List<Event> filteredEvents = [];
     List<Future> loadFilteredEvents = [];
-    for (Event e in allEvents){
+    for (Event e in allEvents) {
       if (e.artist.value?.id == artist?.id) {
         filteredEvents.add(e);
         loadFilteredEvents.add(e.rule.load());
       }
     }
     await Future.wait(loadFilteredEvents);
-    
+
     //for (Event e in artist?.events??[]) { //Someday, when Isar is patched...
-    for (Event e in filteredEvents){
-      score += e.rule.value?.reward??0;
-    };
+    for (Event e in filteredEvents) {
+      score += e.rule.value?.reward ?? 0;
+    }
+    ;
     _points = score;
   }
 
@@ -62,19 +65,19 @@ class _ArtistBoxState extends State<ArtistBox> {
     if (widget.editable) {
       var id = await Navigator.push(
         context,
-        MaterialPageRoute<int>(
-          builder: (context) => ArtistPicker()
-        ),
+        MaterialPageRoute<int>(builder: (context) => ArtistPicker()),
       );
-      Artist? _artist = await isar.artists.get(id??0);
+      Artist? _artist = await isar.artists.get(id ?? 0);
       widget.team.updateArtist(widget.position, id);
       widget.updateBox();
     } else {
       Navigator.push(
         context,
         MaterialPageRoute<bool>(
-          builder: (context) => ArtistPage(artist??Artist(0,'','',0,0,0,'','','',DateTime.now()), widget.editable)
-        ),
+            builder: (context) => ArtistPage(
+                artist ??
+                    Artist(0, '', '', 0, 0, 0, '', '', '', DateTime.now()),
+                widget.editable)),
       );
     }
   }
@@ -84,86 +87,99 @@ class _ArtistBoxState extends State<ArtistBox> {
     Team team = widget.team;
     bool editable = widget.editable;
     return FutureBuilder(
-      future: Future.wait([updateBox()]),
-      builder: (BuildContext context, AsyncSnapshot<List> snapshot) { 
-        return Stack(children:[Card(
-          color: Theme.of(context).colorScheme.primary,
-          child: TextButton(
-            child: Container(
-              constraints: BoxConstraints(maxWidth: 150, maxHeight: 150),
-              child: AspectRatio(
-                aspectRatio: 0.85,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 24,
-                      child: Column(children: [
-                        Expanded(child: Container()),
-                        Text(
-                          artist?.name ?? "Välj artist",
-                          style: TextStyle(color: Theme.of(context).colorScheme.onPrimary),
-                          textAlign: TextAlign.center,) 
-                      ])
-                    ),
-                    Expanded(
-                      child: AspectRatio(
-                      aspectRatio: 1.0,
-                        child: Stack(
-                          children: [
-                            ColoredBox(
-                              color: Theme.of(context).splashColor,
-                              child: Center(
-                                child: Text(
-                                    '+',
-                                    textAlign: TextAlign.center,
-                                    style:
-                                        Theme.of(context).textTheme.headline2,
-                                  ),
-                              ),
-                            ),
-                            if ((artist?.imgurl??'') != '') Hero( tag: artist!.id,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: CachedNetworkImageProvider(artist!.imgurl),
-                                    alignment: Alignment(0,-0.5),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      )
-                    ),
-                    SizedBox(
-                      height: 24,
-                      child: editable? Text(
-                        'Kostnad: '+(_cost?.toString()??'0'),
-                        style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
-                      ) : Text(
-                        'Poäng: $_points',
-                        style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
-                      )
-                    )
-                  ],
-                )
-              )
-            ),
-            onPressed: () {
-              _onPressed();
-            }
-          )
-        ),
-        (editable && artist!=null) ? CircleAvatar(
-	  child: Text(
-	    artist?.heat.toString()??''
-	  ),
-          backgroundColor: Theme.of(context).colorScheme.secondary,
-	):Container()
-	]);
-      }
-    );
+        future: Future.wait([updateBox()]),
+        builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
+          return Stack(children: [
+            Card(
+                color: Theme.of(context).colorScheme.primary,
+                child: TextButton(
+                    child: Container(
+                        constraints:
+                            BoxConstraints(maxWidth: 150, maxHeight: 150),
+                        child: AspectRatio(
+                            aspectRatio: 0.85,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SizedBox(
+                                    height: 24,
+                                    child: Column(children: [
+                                      Expanded(child: Container()),
+                                      Text(
+                                        artist?.name ?? "Välj artist",
+                                        style: TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onPrimary),
+                                        textAlign: TextAlign.center,
+                                      )
+                                    ])),
+                                Expanded(
+                                    child: AspectRatio(
+                                        aspectRatio: 1.0,
+                                        child: Stack(
+                                          children: [
+                                            ColoredBox(
+                                              color:
+                                                  Theme.of(context).splashColor,
+                                              child: Center(
+                                                child: Text(
+                                                  '+',
+                                                  textAlign: TextAlign.center,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headline2,
+                                                ),
+                                              ),
+                                            ),
+                                            if ((artist?.imgurl ?? '') != '')
+                                              Hero(
+                                                tag: artist!.id,
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                      fit: BoxFit.cover,
+                                                      image:
+                                                          CachedNetworkImageProvider(
+                                                              artist!.imgurl),
+                                                      alignment:
+                                                          Alignment(0, -0.5),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                          ],
+                                        ))),
+                                SizedBox(
+                                    height: 24,
+                                    child: editable
+                                        ? Text(
+                                            'Kostnad: ' +
+                                                (_cost?.toString() ?? '0'),
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .tertiary),
+                                          )
+                                        : Text(
+                                            'Poäng: $_points',
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .tertiary),
+                                          ))
+                              ],
+                            ))),
+                    onPressed: () {
+                      _onPressed();
+                    })),
+            (editable && artist != null)
+                ? CircleAvatar(
+                    child: Text(artist?.heat.toString() ?? ''),
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                  )
+                : Container()
+          ]);
+        });
   }
 }

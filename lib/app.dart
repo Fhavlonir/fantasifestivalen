@@ -32,7 +32,8 @@ class Artist {
 
 @Collection()
 class Rule {
-  Rule(this.id, this.name, this.desc, this.category, this.reward, this.timestamp);
+  Rule(this.id, this.name, this.desc, this.category, this.reward,
+      this.timestamp);
   int id;
   String name;
   String desc;
@@ -47,7 +48,7 @@ class Event {
   int id;
   final artist = IsarLink<Artist>();
   @Index()
-  final rule   = IsarLink<Rule>();
+  final rule = IsarLink<Rule>();
   String comment;
   @Index()
   DateTime timestamp;
