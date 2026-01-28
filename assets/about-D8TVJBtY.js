@@ -1,1 +1,0 @@
-import{t as e}from"./index-BZIbGsrH.js";var t=e('<section class="bg-pink-100 text-gray-700 p-8"><h1 class="text-2xl font-bold">Om Fantasifestivalen</h1><p>Hej jag heter Philip och jag har byggt den här webappen.<br>Den är publicerad under licensen AGPLv3.0');function n(){return t()}export{n as default};
