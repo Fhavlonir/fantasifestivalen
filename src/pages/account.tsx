@@ -5,28 +5,11 @@ const [email, setEmail] = createSignal("");
 const [userinfo, setUserinfo] = createSignal("");
 
 
-function detecttoken() {
-  const params = new URLSearchParams(window.location.search);
-  const token_hash = params.get("token_hash");
-  const paramType = params.get("type");
-  if (token_hash) {
-    supabase.auth.verifyOtp({
-      token_hash,
-      type: paramType || "email",
-    }).then(({ error }) => {
-      if (error) {
-        console.log(error.message);
-      } else {
-        window.history.replaceState({}, document.title, "/");
-      }
-    });
-  }
-}
 function login() {
   supabase.auth.signInWithOtp({
     email: email(),
     options: {
-      emailRedirectTo: window.location.origin + "/account",
+      emailRedirectTo: window.location.origin,
     }
   });
 }
@@ -39,7 +22,6 @@ async function displayuser() {
 };
 export default function AccountPage() {
   onMount(() => {
-    detecttoken();
     displayuser();
   });
   console.log(userinfo());

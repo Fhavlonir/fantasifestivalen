@@ -1,4 +1,4 @@
-import { Index, Show } from 'solid-js';
+import { Index, onMount, Show } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import { ArtistBox, ArtistPopup } from '../utils/fantasifestivalen-modules';
 import { getArtistById, teamName, setTeamName, localTeam, artists, selectedArtist, stagedTransactions } from '../utils/fantasifestivalen-globals';
@@ -18,7 +18,26 @@ function remaining() {
 }
 
 
+function detecttoken() {
+  const params = new URLSearchParams(window.location.search);
+  const token_hash = params.get("token_hash");
+  const paramType = params.get("type");
+  if (token_hash) {
+    supabase.auth.verifyOtp({
+      token_hash,
+      type: paramType || "email",
+    }).then(({ error }) => {
+      if (error) {
+        console.log(error.message);
+      }
+    });
+  }
+}
+
 export default function Home() {
+  onMount(() => {
+    detecttoken();
+  });
   return (
     <section class="bg-gray-900 text-gray-200 p-8">
       <Show when={selectedArtist() != null} keyed>
