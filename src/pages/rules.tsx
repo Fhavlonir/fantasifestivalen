@@ -1,4 +1,4 @@
-import { For, createSignal } from 'solid-js';
+import { For } from 'solid-js';
 import { rules } from '../utils/fantasifestivalen-globals';
 
 export default function RulesPage() {

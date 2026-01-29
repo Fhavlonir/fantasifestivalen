@@ -1,19 +1,24 @@
 import { makePersisted } from '@solid-primitives/storage';
 import { Transaction, Artist } from './fantasifestivalen-interfaces';
-import { supabase } from "./supabase";
 import { createResource, createSignal, createMemo } from 'solid-js';
 import { createStore } from 'solid-js/store';
-//import { useNavigate } from '@solidjs/router';
 import localforage from 'localforage';
+import { createClient } from '@supabase/supabase-js'
 
 
-export const [stagedTransactions, setStagedTransactions] = createStore({ transactions: <Transaction[]>[] });
+const supabaseUrl = 'https://tclfopjrhhqsjmbozyya.supabase.co';
+const supabaseKey = 'sb_publishable_UmnJahIC18W7J22BMu0pGg_jGhKNw4n';
+export const supabase = createClient(supabaseUrl, supabaseKey);
+export const [user, setUser] = createSignal(await supabase.auth.getUser().then((u) => u.data.user));
 export const [selectedArtist, selectArtist] = createSignal<Artist | null>(null);
-export const [teamName, setTeamName] = makePersisted(createSignal(""), { storage: localforage });
+//export const [teamName, setTeamName] = makePersisted(createSignal(""), { storage: localforage });
+export const [stagedTransactions, setStagedTransactions] = makePersisted(createStore({ transactions: <Transaction[]>[] }), { storage: localforage });
+export const [teamName] = createResource(async () => (await getData("user_teamnames"))?.[0]?.teamname ?? "", { storage: (x) => { const [signal, setSignal] = makePersisted(createSignal(x), { storage: localforage }); return [signal, setSignal] } });
 export const [artists] = createResource(async () => await getData("artist_costs"), { storage: (x) => { const [signal, setSignal] = makePersisted(createSignal(x), { storage: localforage }); return [signal, setSignal] } });
 export const [rules] = createResource(async () => await getData("rules"), { storage: (x) => { const [signal, setSignal] = makePersisted(createSignal(x), { storage: localforage }); return [signal, setSignal] } });
 export const [events] = createResource(async () => await getData("events"), { storage: (x) => { const [signal, setSignal] = makePersisted(createSignal(x), { storage: localforage }); return [signal, setSignal] } });
-//export const [leaderboard] = createResource(async () => await getData("leaderboard"), { storage: (x) => { const [signal, setSignal] = makePersisted(createSignal(x), { storage: localforage }); return [signal, setSignal] } });
+export const [leaderboard] = createResource(async () => await getData("leaderboard"), { storage: (x) => { const [signal, setSignal] = makePersisted(createSignal(x), { storage: localforage }); return [signal, setSignal] } });
+const [teams] = createResource(getData.bind(null, "team"));
 
 
 export function getArtistById(id: number | null): Artist | null {
@@ -26,8 +31,6 @@ async function getData(table: string) {
   const { data } = await supabase.from(table).select();
   return data;
 }
-
-const [teams] = createResource(getData.bind(null, "team"));
 
 export const remoteTeam = createMemo(() => {
   const t = teams();

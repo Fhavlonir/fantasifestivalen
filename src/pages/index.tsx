@@ -1,14 +1,17 @@
-import { Index, onMount, Show } from 'solid-js';
+import { createSignal, Index, onMount, Show } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import { ArtistBox, ArtistPopup } from '../utils/fantasifestivalen-modules';
-import { getArtistById, teamName, setTeamName, localTeam, artists, selectedArtist, stagedTransactions } from '../utils/fantasifestivalen-globals';
-import { supabase } from '../utils/supabase';
+import { user, supabase, getArtistById, teamName, localTeam, selectedArtist, stagedTransactions } from '../utils/fantasifestivalen-globals';
+import { A } from '@solidjs/router';
+
+const [localTeamName, setLocalTeamName] = createSignal(teamName());
 
 async function submitTeam() {
   if (remaining() >= 0) {
     await Promise.all([
       supabase.from("user_artist_buys").insert(stagedTransactions.transactions.filter(x => x.type == "buy")),
-      supabase.from("user_artist_sells").insert(stagedTransactions.transactions.filter(x => x.type == "sell"))
+      supabase.from("user_artist_sells").insert(stagedTransactions.transactions.filter(x => x.type == "sell")),
+      supabase.from("user_teamnames").insert(teamName()),
     ]);
   }
 };
@@ -48,8 +51,8 @@ export default function Home() {
       <input
         class="text-4xl font-bold w-full my-16"
         placeholder="Ge ditt lag ett namn..."
-        value={teamName()}
-        onInput={(e) => setTeamName(e.target.value)}
+        value={localTeamName() ?? null}
+        onInput={(e) => setLocalTeamName(e.target.value)}
         required
       />
       <Show when={localTeam()?.length > 0}>
@@ -65,9 +68,13 @@ export default function Home() {
       <Show when={stagedTransactions.transactions.length > 0}>
         <div class="flex flex-row gap-8 justify-end">
           <span>Poäng kvar: {remaining()}</span>
-          <button onClick={submitTeam}>
-            ✅
-          </button>
+          <Show when={localTeamName().length > 0 && localTeam().indexOf(null) < 0} fallback={"Obs! Ditt lag måste ha exakt 5 artister och ett namn."}>
+            <Show when={user() != null} fallback={<A href="/account">Loggga in för att skapa ditt lag</A>}>
+              <button onClick={submitTeam}>
+                ✅
+              </button>
+            </Show>
+          </Show>
         </div>
       </Show>
     </section>

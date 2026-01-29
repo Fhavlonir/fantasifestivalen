@@ -1,6 +1,5 @@
 import { For, Switch, Match, createSignal } from 'solid-js';
-import { artists, rules } from '../utils/fantasifestivalen-globals';
-import { supabase } from '../utils/supabase';
+import { supabase, artists, rules } from '../utils/fantasifestivalen-globals';
 
 enum LoadStatus {
   none,
@@ -15,8 +14,6 @@ const [rule, setRule] = createSignal("");
 const [loading, setLoading] = createSignal<LoadStatus>(LoadStatus.none);
 
 async function postEvent(artist: string, rule: string) {
-  console.log(artist);
-  console.log(rule);
   setLoading(LoadStatus.processing);
   let result = await supabase.from("events").insert({ "artist": artist, "rule": rule });
   if (result.error) {

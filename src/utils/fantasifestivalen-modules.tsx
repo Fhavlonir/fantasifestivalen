@@ -1,6 +1,5 @@
 import { Artist, Event, Transaction } from './fantasifestivalen-interfaces';
 import { getArtistById, rules, selectArtist, selectedArtist, localTeam, stagedTransactions, setStagedTransactions } from './fantasifestivalen-globals';
-import { supabase } from './supabase';
 import { Show } from 'solid-js';
 import { A, useNavigate } from '@solidjs/router';
 
@@ -38,7 +37,6 @@ async function transactArtist(type: "buy" | "sell") {
   selectArtist(null);
 }
 export function ArtistPopup(props: { artist: Artist | null }) {
-  console.log(localTeam());
   const navigate = useNavigate();
   return <div class="fixed grid inset-0 place-content-center">
     <div class="rounded-2xl bg-pink-100 w-196">
