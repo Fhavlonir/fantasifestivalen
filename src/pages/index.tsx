@@ -12,7 +12,7 @@ async function submitTeam() {
     await Promise.all([
       supabase.from("user_artist_buys").insert(stagedTransactions.transactions.filter(x => x.type == "buy").map(x => { const { type, ...y } = x; return y })).then((r) => console.log(r.error)),
       supabase.from("user_artist_sells").insert(stagedTransactions.transactions.filter(x => x.type == "sell").map(x => { const { type, ...y } = x; return y })).then((r) => console.log(r.error)),
-      supabase.from("user_teamnames").insert(localTeamName()).then((r) => console.log(r.error)),
+      supabase.from("user_teamnames").insert({ teamname: localTeamName() }).then((r) => console.log(r.error)),
     ]);
   }
 };
