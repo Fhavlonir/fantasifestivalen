@@ -27,7 +27,7 @@ async function postEvent(artist: string, rule: string) {
 
 export default function Backend() {
   return (
-    <section class="bg-gray-100 text-gray-700 p-8">
+    <section class="p-8">
       <h1 class="text-2xl font-bold">Fantasifestivalen</h1>
       <form on:submit={(e) => {
         e.preventDefault();
@@ -62,7 +62,7 @@ export default function Backend() {
           </For>
         </select>
         <br />
-        <input class="bg-purple-400" type='submit' />
+        <input class="btn" type='submit' />
       </form>
       <Switch>
         <Match when={loading() == LoadStatus.processing}>

@@ -4,8 +4,8 @@ import { rules } from '../utils/fantasifestivalen-globals';
 export default function RulesPage() {
 
   return (
-    <section class="bg-gray-700 text-gray-100 p-8">
-      <table>
+    <section class="p-8">
+      <table class="table">
         <tr>
           <th>Namn</th>
           <th class="px-2">Belöning</th>

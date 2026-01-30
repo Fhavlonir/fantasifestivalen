@@ -1,23 +1,38 @@
 import { user, supabase } from '../utils/fantasifestivalen-globals';
-import { createSignal, onMount, Show } from 'solid-js';
+import { createSignal, onMount, Show, Switch, Match } from 'solid-js';
 
+enum LoadStatus {
+  none,
+  processing,
+  success,
+  fail,
+}
+const [loading, setLoading] = createSignal<LoadStatus>(LoadStatus.none);
 const [email, setEmail] = createSignal("");
 const [password, setPassword] = createSignal("");
 const [userinfo, setUserinfo] = createSignal("");
 const [existingAccount, setExistingAccount] = createSignal(false);
 
 function register() {
+  setLoading(LoadStatus.processing);
   supabase.auth.signUp({
     email: email(),
     password: password()
-  });
+  }).then((r) => {
+    (r.error == null) ?
+      setLoading(LoadStatus.success) :
+      setLoading(LoadStatus.fail);
+    console.log(r.error)
+  })
+    .finally(async () => setTimeout(() => setLoading(LoadStatus.none), 5000));
 }
 
 function login() {
+  setLoading(LoadStatus.processing)
   supabase.auth.signInWithPassword({
     email: email(),
     password: password()
-  });
+  }).then((r) => (r.error == null) ? setLoading(LoadStatus.success) : setLoading(LoadStatus.fail)).finally(async () => setTimeout(() => setLoading(LoadStatus.none), 5000));
 }
 function logout() {
   supabase.auth.signOut();
@@ -30,7 +45,7 @@ export default function AccountPage() {
   onMount(() => {
     displayuser();
   });
-  return <section class="bg-gray-100 text-gray-700 p-8">
+  return <section class="p-8">
     <h1 class="text-2xl font-bold">Konto</h1>
     <Show when={userinfo().length < 1}
       fallback={
@@ -38,7 +53,7 @@ export default function AccountPage() {
           <p>
             {userinfo()}
           </p>
-          <button class="btn" onClick={logout}>Logga ut</button>
+          <button class="btn m-2 bg-primary text-primary-content" onClick={logout}>Logga ut</button>
         </div>
       }
     >
@@ -47,10 +62,11 @@ export default function AccountPage() {
           e.preventDefault();
           login();
           setEmail("");
+          setPassword("");
         }}>
           <div class="field-block">
             <input
-              class="input"
+              class="input m-2"
               name="email"
               type="email"
               placeholder="E-post"
@@ -61,7 +77,7 @@ export default function AccountPage() {
           </div>
           <div class="field-block">
             <input
-              class="input"
+              class="input m-2"
               name="password"
               type="password"
               placeholder="Lösenord"
@@ -70,22 +86,34 @@ export default function AccountPage() {
               required
             />
           </div>
-          <button class="btn" type="submit">Logga in</button>
+          <button class="btn m-2 bg-primary text-primary-content" type="submit">Logga in</button>
         </form>
+        <Switch >
+          <Match when={loading() == LoadStatus.processing}>
+            ♻️
+          </Match>
+          <Match when={loading() == LoadStatus.fail}>
+            ❌
+          </Match>
+          <Match when={loading() == LoadStatus.processing}>
+            ✅
+          </Match>
+        </Switch>
         <br />
         Har du inget konto?
         <br />
-        <button class="btn" onClick={() => { setExistingAccount(false) }}>Registrera dig här</button>
+        <button class="btn m-2 bg-primary text-primary-content" onClick={() => { setExistingAccount(false) }}>Registrera dig här</button>
       </Show>
       <Show when={!existingAccount()}>
         <form on:submit={(e) => {
           e.preventDefault();
           register();
           setEmail("");
+          setPassword("");
         }}>
           <div class="field-block">
             <input
-              class="input"
+              class="input m-2"
               name="email"
               type="email"
               placeholder="E-post"
@@ -96,7 +124,7 @@ export default function AccountPage() {
           </div>
           <div class="field-block">
             <input
-              class="input"
+              class="input m-2"
               name="password"
               type="password"
               placeholder="Lösenord"
@@ -105,12 +133,23 @@ export default function AccountPage() {
               required
             />
           </div>
-          <button class="btn" type="submit">Registrera dig</button>
+          <button class="btn m-2 bg-primary text-primary-content" type="submit">Registrera dig</button>
         </form>
         <br />
+        <Switch >
+          <Match when={loading() == LoadStatus.processing}>
+            ♻️
+          </Match>
+          <Match when={loading() == LoadStatus.fail}>
+            ❌
+          </Match>
+          <Match when={loading() == LoadStatus.processing}>
+            ✅
+          </Match>
+        </Switch>
         Har du redan ett konto?
         <br />
-        <button class="btn" onClick={() => { setExistingAccount(true) }}>Logga in här</button>
+        <button class="btn m-2 bg-primary text-primary-content" onClick={() => { setExistingAccount(true) }}>Logga in här</button>
       </Show>
 
     </Show>

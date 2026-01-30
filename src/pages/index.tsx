@@ -42,7 +42,7 @@ export default function Home() {
     detecttoken();
   });
   return (
-    <section class="bg-gray-900 text-gray-200 p-8">
+    <section class="p-8">
       <Show when={selectedArtist() != null} keyed>
         <Portal mount={document.querySelector("main") ?? undefined}>
           {ArtistPopup({ artist: selectedArtist() })}
@@ -51,7 +51,7 @@ export default function Home() {
       <input
         class="text-4xl font-bold w-full my-16"
         placeholder="Ge ditt lag ett namn..."
-        value={localTeamName() ?? null}
+        value={localTeamName() ?? ""}
         onInput={(e) => setLocalTeamName(e.target.value)}
         required
       />
@@ -68,7 +68,7 @@ export default function Home() {
       <Show when={stagedTransactions.transactions.length > 0}>
         <div class="flex flex-row gap-8 justify-end">
           <span>Poäng kvar: {remaining()}</span>
-          <Show when={localTeamName().length > 0 && localTeam().indexOf(null) < 0} fallback={"Obs! Ditt lag måste ha exakt 5 artister och ett namn."}>
+          <Show when={localTeamName()?.length > 0 && localTeam().indexOf(null) < 0} fallback={"Obs! Ditt lag måste ha exakt 5 artister och ett namn."}>
             <Show when={user() != null} fallback={<A href="/account">Loggga in för att skapa ditt lag</A>}>
               <button onClick={submitTeam}>
                 ✅
