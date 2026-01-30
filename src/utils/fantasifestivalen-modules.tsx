@@ -3,15 +3,6 @@ import { getArtistById, rules, selectArtist, selectedArtist, localTeam, stagedTr
 import { Show } from 'solid-js';
 import { A, useNavigate } from '@solidjs/router';
 
-function boxClicked(artist: Artist | null) {
-  if (artist) {
-    selectArtist(artist)
-  }
-  else {
-    window.location.href = '/artistpicker';
-  }
-}
-
 export function ArtistBox(props: { artist: Artist | null }) {
   return <div class="max-w-48 p-4 m-4 card bg-primary text-primary-content">
     <Show fallback={
@@ -40,7 +31,7 @@ export function ArtistBox(props: { artist: Artist | null }) {
 
 async function transactArtist(type: "buy" | "sell") {
   const oldTr: Transaction[] = stagedTransactions.transactions;
-  const newTr: Transaction = { type: type, artist: selectedArtist()?.id ?? 0 };
+  const newTr: Transaction = { type: type, artist_id: selectedArtist()?.id ?? 0 };
   setStagedTransactions({ "transactions": oldTr.concat([newTr]) });
   selectArtist(null);
 }
@@ -69,13 +60,22 @@ export function ArtistPopup(props: { artist: Artist | null }) {
         </div>
 
         <div class="flex justify-end">
-          <Show when={localTeam()?.includes(null)}>
+          <Show when={localTeam()?.includes(null) && !localTeam()?.includes(selectedArtist()?.id ?? null)}>
             <button class="btn" onClick={() => {
               transactArtist("buy");
               navigate("/");
             }
             }>
               ✅
+            </button>
+          </Show>
+          <Show when={localTeam()?.includes(selectedArtist()?.id ?? null)}>
+            <button class="btn" onClick={() => {
+              transactArtist("sell");
+              navigate("/");
+            }
+            }>
+              ❌
             </button>
           </Show>
           <Show when={false && !localTeam()?.includes(null)}>

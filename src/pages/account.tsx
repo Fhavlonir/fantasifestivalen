@@ -1,4 +1,5 @@
-import { user, supabase } from '../utils/fantasifestivalen-globals';
+import { useNavigate } from '@solidjs/router';
+import { user, supabase, remoteTeam } from '../utils/fantasifestivalen-globals';
 import { createSignal, onMount, Show, Switch, Match } from 'solid-js';
 
 enum LoadStatus {
@@ -12,6 +13,7 @@ const [email, setEmail] = createSignal("");
 const [password, setPassword] = createSignal("");
 const [userinfo, setUserinfo] = createSignal("");
 const [existingAccount, setExistingAccount] = createSignal(false);
+const [errorString, setErrorString] = createSignal("");
 
 function register() {
   setLoading(LoadStatus.processing);
@@ -19,10 +21,13 @@ function register() {
     email: email(),
     password: password()
   }).then((r) => {
-    (r.error == null) ?
-      setLoading(LoadStatus.success) :
+    if (r.error == null) {
+      setLoading(LoadStatus.success)
+      setExistingAccount(true);
+    } else {
       setLoading(LoadStatus.fail);
-    console.log(r.error)
+      setErrorString(r.error?.toString() ?? "");
+    }
   })
     .finally(async () => setTimeout(() => setLoading(LoadStatus.none), 5000));
 }
@@ -32,10 +37,22 @@ function login() {
   supabase.auth.signInWithPassword({
     email: email(),
     password: password()
-  }).then((r) => (r.error == null) ? setLoading(LoadStatus.success) : setLoading(LoadStatus.fail)).finally(async () => setTimeout(() => setLoading(LoadStatus.none), 5000));
+  }).then((r) => {
+    console.log(r);
+    if (r.error == null) {
+      setLoading(LoadStatus.success);
+      if (remoteTeam()?.length ?? 0 > 0) {
+      }
+    } else {
+      setLoading(LoadStatus.fail);
+      setErrorString(r.error?.toString() ?? "");
+    }
+    supabase.auth.getUser().then((u) => setUserinfo(u.data.user?.email ?? ""));
+  })
 }
 function logout() {
   supabase.auth.signOut();
+  setUserinfo("");
 }
 
 async function displayuser() {
@@ -100,6 +117,9 @@ export default function AccountPage() {
           </Match>
         </Switch>
         <br />
+        <br />
+        {errorString()}
+        <br />
         Har du inget konto?
         <br />
         <button class="btn m-2 bg-primary text-primary-content" onClick={() => { setExistingAccount(false) }}>Registrera dig här</button>
@@ -147,6 +167,9 @@ export default function AccountPage() {
             ✅
           </Match>
         </Switch>
+        {errorString()}
+        <br />
+        <br />
         Har du redan ett konto?
         <br />
         <button class="btn m-2 bg-primary text-primary-content" onClick={() => { setExistingAccount(true) }}>Logga in här</button>

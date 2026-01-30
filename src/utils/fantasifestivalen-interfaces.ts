@@ -23,5 +23,5 @@ export interface Event {
 }
 export interface Transaction {
   type: "buy" | "sell";
-  artist: number;
+  artist_id: number;
 };
