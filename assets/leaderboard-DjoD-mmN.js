@@ -1,0 +1,1 @@
+import{t}from"./index-Bupw1FUa.js";var e=t('<section class=p-8><h1 class="text-2xl font-bold">Topplista</h1><div class="flex items-center space-x-2">UNDER CONSTRUCTION 🏗️👷🚧');function a(){return e()}export{a as default};
