@@ -19,8 +19,8 @@ export const [events] = createResource(async () => await getData("events"), { st
 export const [leaderboard] = createResource(async () => await getData("leaderboard"), { storage: x => { const [signal, setSignal] = makePersisted(createSignal(x), { storage: localforage }); return [signal, setSignal] } });
 export const [localTeamName, setLocalTeamName] = makePersisted(createSignal(""));
 
-const [teams] = createResource(getData.bind(null, "team"));
-export const remoteTeam = createMemo((t: any[] | undefined) => (t ?? []).map(x => x.artist_id).concat(Array(5 - (t?.length ?? 0)).fill(null)), teams());
+const [teams] = createResource(async () => await getData("team"));
+export const remoteTeam = createMemo(() => (teams() ?? []).map(x => x.artist_id).concat(Array(5 - (teams()?.length ?? 0)).fill(null)));
 
 export function getArtistById(id: number | null): Artist | null {
   if (!id) {

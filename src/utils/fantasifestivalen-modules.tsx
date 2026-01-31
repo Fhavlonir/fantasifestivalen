@@ -1,9 +1,11 @@
 import { Artist, Event, Transaction } from './fantasifestivalen-interfaces';
-import { getArtistById, rules, selectArtist, selectedArtist, localTeam, stagedTransactions, setStagedTransactions } from './fantasifestivalen-globals';
+import { getArtistById, rules, selectArtist, selectedArtist, remoteTeam, localTeam, stagedTransactions, setStagedTransactions } from './fantasifestivalen-globals';
 import { Show } from 'solid-js';
 import { A, useNavigate } from '@solidjs/router';
 
 export function ArtistBox(props: { artist: Artist | null }) {
+  console.log(localTeam());
+  console.log(remoteTeam());
   return <div class="max-w-48 p-4 m-4 card bg-primary text-primary-content">
     <Show fallback={
       <a onClick={() => { selectArtist(props.artist); document.getElementById('ArtistPopup-modal')?.showModal() }} >

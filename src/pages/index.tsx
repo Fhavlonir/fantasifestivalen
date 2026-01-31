@@ -1,7 +1,7 @@
 import { createSignal, Index, onMount, Show } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import { ArtistBox, ArtistPopup } from '../utils/fantasifestivalen-modules';
-import { localTeamName, setLocalTeamName, user, supabase, getArtistById, localTeam, selectedArtist, stagedTransactions, teamName } from '../utils/fantasifestivalen-globals';
+import { localTeamName, setLocalTeamName, user, supabase, getArtistById, localTeam, selectedArtist, stagedTransactions, teamName, remoteTeam } from '../utils/fantasifestivalen-globals';
 import { A } from '@solidjs/router';
 import { makePersisted } from '@solid-primitives/storage';
 
@@ -56,7 +56,10 @@ export default function Home() {
       <Show when={stagedTransactions.transactions.length > 0}>
         <div class="flex flex-row gap-8 justify-end">
           <span>Poäng kvar: {remaining()}</span>
-          <Show when={localTeamName()?.length > 0 && localTeam().indexOf(null) < 0} fallback={"Obs! Ditt lag måste ha exakt 5 artister och ett namn."}>
+          <Show when={localTeam().join() != remoteTeam().join()}>
+            <Show when={localTeamName()?.length == 0 && localTeam().indexOf(null) >= 0}>
+              Obs! Ditt lag måste ha exakt 5 artister och ett namn.
+            </Show>
             <Show when={user() != null} fallback={<A href="/account">Loggga in för att skapa ditt lag</A>}>
               <div class="fab">
                 <a onClick={() => submitTeam()} class="btn btn-lg btn-circle btn-secondary">

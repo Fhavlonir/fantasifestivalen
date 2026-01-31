@@ -1,6 +1,5 @@
-import { user, supabase, remoteTeam } from '../utils/fantasifestivalen-globals';
 import { createSignal, onMount, Show, Switch, Match } from 'solid-js';
-import { setLocalTeamName, setStagedTransactions } from '../utils/fantasifestivalen-globals';
+import { user, supabase, remoteTeam, setUser, setStagedTransactions } from '../utils/fantasifestivalen-globals';
 
 enum LoadStatus {
   none,
@@ -11,7 +10,6 @@ enum LoadStatus {
 const [loading, setLoading] = createSignal<LoadStatus>(LoadStatus.none);
 const [email, setEmail] = createSignal("");
 const [password, setPassword] = createSignal("");
-const [userinfo, setUserinfo] = createSignal("");
 const [existingAccount, setExistingAccount] = createSignal(false);
 const [errorString, setErrorString] = createSignal("");
 
@@ -48,18 +46,17 @@ function login() {
       setLoading(LoadStatus.fail);
       setErrorString(r.error?.toString() ?? "");
     }
-    supabase.auth.getUser().then((u) => setUserinfo(u.data.user?.email ?? ""));
+    supabase.auth.getUser().then((u) => setUser(u.data.user));
   })
 }
 function logout() {
   supabase.auth.signOut();
-  setLocalTeamname("");
   setStagedTransactions({ transactions: [] });
-  setUserinfo("");
+  setUser(null);
 }
 
 async function displayuser() {
-  setUserinfo(user()?.email ?? "");
+  setUser(user());
 };
 export default function AccountPage() {
   onMount(() => {
@@ -67,11 +64,11 @@ export default function AccountPage() {
   });
   return <section class="p-8">
     <h1 class="text-2xl font-bold">Konto</h1>
-    <Show when={userinfo().length < 1}
+    <Show when={user() == null}
       fallback={
         <div>
           <p>
-            {userinfo()}
+            {user()?.email ?? ""}
           </p>
           <button class="btn m-2 bg-primary text-primary-content" onClick={logout}>Logga ut</button>
         </div>
