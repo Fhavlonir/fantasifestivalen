@@ -1,0 +1,1 @@
+import{t as e}from"./index-Cv_c6JXB.js";var t=e('<section class=p-8><h1 class="text-2xl font-bold">Om Fantasifestivalen</h1><p>Hej jag heter Philip och jag har byggt den här webappen.<br>Den är publicerad under licensen AGPLv3.0');function n(){return t()}export{n as default};
