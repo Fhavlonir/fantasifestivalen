@@ -1,5 +1,5 @@
 import { createSignal, onMount, Show, Switch, Match } from 'solid-js';
-import { user, supabase, remoteTeam, setUser, setStagedTransactions } from '../utils/fantasifestivalen-globals';
+import { user, supabase, remoteTeam, setUser, setStagedTransactions, setLocalTeamName } from '../utils/fantasifestivalen-globals';
 
 enum LoadStatus {
   none,
@@ -53,6 +53,7 @@ function logout() {
   supabase.auth.signOut();
   setStagedTransactions({ transactions: [] });
   setUser(null);
+  setLocalTeamName("");
 }
 
 async function displayuser() {
