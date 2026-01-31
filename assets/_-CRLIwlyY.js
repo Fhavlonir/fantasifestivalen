@@ -1,0 +1,1 @@
+import{t}from"./index-DnBeM9cz.js";var s=t('<section class="text-primary p-8"><h1 class="text-2xl font-bold">404: Not Found</h1><p class=mt-4>Den här addressen tycks inte finnas');function n(){return s()}export{n as default};
