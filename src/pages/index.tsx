@@ -3,8 +3,6 @@ import { Portal } from 'solid-js/web';
 import { ArtistBox, ArtistPopup } from '../utils/fantasifestivalen-modules';
 import { localTeamName, setLocalTeamName, user, supabase, getArtistById, localTeam, selectedArtist, stagedTransactions, teamName, remoteTeam } from '../utils/fantasifestivalen-globals';
 import { A } from '@solidjs/router';
-import { makePersisted } from '@solid-primitives/storage';
-
 
 async function submitTeam() {
   if (remaining() >= 0) {
@@ -32,7 +30,7 @@ export default function Home() {
           {ArtistPopup({ artist: selectedArtist() })}
         </Portal>
       </Show>
-      <Show when={teamName() != null}
+      <Show when={(teamName() ?? "").length == 0}
         fallback={<h1 class="text-4xl font-bold my-16">{teamName()}</h1>}
       >
         <input

@@ -12,7 +12,7 @@ export const supabase = createClient(supabaseUrl, supabaseKey);
 export const [user, setUser] = createSignal(await supabase.auth.getUser().then((u) => u.data.user));
 export const [selectedArtist, selectArtist] = createSignal<Artist | null>(null);
 export const [stagedTransactions, setStagedTransactions] = makePersisted(createStore({ transactions: <Transaction[]>[] }), { storage: localforage });
-export const [teamName] = createResource(async () => (await getData("user_teamnames"))?.[0]?.teamname ?? "", { storage: x => { const [signal, setSignal] = makePersisted(createSignal(x), { storage: localforage }); return [signal, setSignal] } });
+export const [teamName] = createResource<string>(async () => (await getData("user_teamnames"))?.[0]?.teamname ?? "", { storage: x => { const [signal, setSignal] = makePersisted(createSignal(x), { storage: localforage }); return [signal, setSignal] } });
 export const [artists] = createResource(async () => await getData("artist_costs"), { storage: x => { const [signal, setSignal] = makePersisted(createSignal(x), { storage: localforage }); return [signal, setSignal] } });
 export const [rules] = createResource(async () => await getData("rules"), { storage: x => { const [signal, setSignal] = makePersisted(createSignal(x), { storage: localforage }); return [signal, setSignal] } });
 export const [events] = createResource(async () => await getData("events"), { storage: x => { const [signal, setSignal] = makePersisted(createSignal(x), { storage: localforage }); return [signal, setSignal] } });
