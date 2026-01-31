@@ -16,7 +16,7 @@ export const [teamName] = createResource<string>(async () => (await getData("use
 export const [artists] = createResource(async () => await getData("artist_costs"), { storage: x => { const [signal, setSignal] = makePersisted(createSignal(x), { storage: localforage }); return [signal, setSignal] } });
 export const [rules] = createResource(async () => await getData("rules"), { storage: x => { const [signal, setSignal] = makePersisted(createSignal(x), { storage: localforage }); return [signal, setSignal] } });
 export const [events] = createResource(async () => await getData("events"), { storage: x => { const [signal, setSignal] = makePersisted(createSignal(x), { storage: localforage }); return [signal, setSignal] } });
-export const [leaderboard] = createResource(async () => await getData("leaderboard"), { storage: x => { const [signal, setSignal] = makePersisted(createSignal(x), { storage: localforage }); return [signal, setSignal] } });
+export const [admin] = createResource(async () => (await getData("admins")).length > 0, { storage: x => { const [signal, setSignal] = makePersisted(createSignal(x), { storage: localforage }); return [signal, setSignal] } });
 export const [localTeamName, setLocalTeamName] = makePersisted(createSignal(""));
 
 const [teams] = createResource(async () => await getData("team"));

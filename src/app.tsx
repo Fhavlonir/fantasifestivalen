@@ -1,6 +1,6 @@
-import { Suspense, type Component } from 'solid-js';
+import { Show, Suspense, type Component } from 'solid-js';
 import { A } from '@solidjs/router';
-import { localTeam, artists, rules, events } from './utils/fantasifestivalen-globals';
+import { admin } from './utils/fantasifestivalen-globals';
 
 const App: Component<{ children: Element }> = (props) => {
 
@@ -33,6 +33,13 @@ const App: Component<{ children: Element }> = (props) => {
               Konto
             </A>
           </li>
+          <Show when={admin()}>
+            <li class="py-2 px-4">
+              <A href="/backend" class="no-underline hover:underline">
+                Backend
+              </A>
+            </li>
+          </Show>
         </ul>
       </nav>
 
