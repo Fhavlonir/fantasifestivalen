@@ -60,7 +60,7 @@ export function ArtistPopup(props: { artist: Artist | null }) {
         </div>
 
         <div class="flex justify-end">
-          <Show when={localTeam()?.includes(null) && !localTeam()?.includes(selectedArtist()?.id ?? null)}>
+          <Show when={localTeam()?.includes(null) && !localTeam()?.includes(selectedArtist()?.id ?? -1)}>
             <button class="btn" onClick={() => {
               transactArtist("buy");
               navigate("/");

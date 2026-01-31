@@ -1,18 +1,17 @@
 import { createSignal, Index, onMount, Show } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import { ArtistBox, ArtistPopup } from '../utils/fantasifestivalen-modules';
-import { user, supabase, getArtistById, localTeam, selectedArtist, stagedTransactions, teamName } from '../utils/fantasifestivalen-globals';
+import { localTeamName, setLocalTeamName, user, supabase, getArtistById, localTeam, selectedArtist, stagedTransactions, teamName } from '../utils/fantasifestivalen-globals';
 import { A } from '@solidjs/router';
 import { makePersisted } from '@solid-primitives/storage';
 
-const [localTeamName, setLocalTeamName] = makePersisted(createSignal(""));
 
 async function submitTeam() {
   if (remaining() >= 0) {
     await Promise.all([
-      supabase.from("user_artist_buys").insert(stagedTransactions.transactions.filter(x => x.type == "buy").map(x => { const { type, ...y } = x; return y })).then((r) => console.log(r.error)),
-      supabase.from("user_artist_sells").insert(stagedTransactions.transactions.filter(x => x.type == "sell").map(x => { const { type, ...y } = x; return y })).then((r) => console.log(r.error)),
-      supabase.from("user_teamnames").insert({ teamname: localTeamName() }).then((r) => console.log(r.error)),
+      supabase.from("user_artist_buys").insert(stagedTransactions.transactions.filter(x => x.type == "buy").map(x => { const { type, ...y } = x; return y })),
+      supabase.from("user_artist_sells").insert(stagedTransactions.transactions.filter(x => x.type == "sell").map(x => { const { type, ...y } = x; return y })),
+      supabase.from("user_teamnames").insert({ teamname: localTeamName() }),
     ]);
   }
 };
@@ -25,7 +24,6 @@ function remaining() {
 
 export default function Home() {
   onMount(() => {
-    setTimeout(setLocalTeamName(teamName() ?? ""), 1000);// Terrible hack, but Iäm going to bed.
   });
   return (
     <section class="p-8">
@@ -34,13 +32,17 @@ export default function Home() {
           {ArtistPopup({ artist: selectedArtist() })}
         </Portal>
       </Show>
-      <input
-        class="text-4xl font-bold w-full my-16"
-        placeholder="Ge ditt lag ett namn..."
-        value={localTeamName() ?? ""}
-        onInput={(e) => setLocalTeamName(e.target.value)}
-        required
-      />
+      <Show when={teamName() != null}
+        fallback={<h1 class="text-4xl font-bold my-16">{teamName()}</h1>}
+      >
+        <input
+          class="text-4xl font-bold w-full my-16"
+          placeholder="Ge ditt lag ett namn..."
+          value={localTeamName() ?? ""}
+          onInput={(e) => setLocalTeamName(e.target.value)}
+          required
+        />
+      </Show>
       <Show when={localTeam()?.length > 0}>
         <div class="flex flex-wrap justify-center">
           <Index each={localTeam()}>

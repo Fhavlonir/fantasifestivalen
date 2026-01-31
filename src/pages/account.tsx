@@ -1,6 +1,6 @@
-import { useNavigate } from '@solidjs/router';
 import { user, supabase, remoteTeam } from '../utils/fantasifestivalen-globals';
 import { createSignal, onMount, Show, Switch, Match } from 'solid-js';
+import { setLocalTeamName, setStagedTransactions } from '../utils/fantasifestivalen-globals';
 
 enum LoadStatus {
   none,
@@ -24,6 +24,7 @@ function register() {
     if (r.error == null) {
       setLoading(LoadStatus.success)
       setExistingAccount(true);
+      login();
     } else {
       setLoading(LoadStatus.fail);
       setErrorString(r.error?.toString() ?? "");
@@ -52,6 +53,8 @@ function login() {
 }
 function logout() {
   supabase.auth.signOut();
+  setLocalTeamname("");
+  setStagedTransactions({ transactions: [] });
   setUserinfo("");
 }
 

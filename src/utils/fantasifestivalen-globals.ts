@@ -1,6 +1,6 @@
 import { makePersisted } from '@solid-primitives/storage';
 import { Transaction, Artist } from './fantasifestivalen-interfaces';
-import { createResource, createSignal, createMemo, Resource } from 'solid-js';
+import { createResource, createSignal, createMemo, } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import localforage from 'localforage';
 import { createClient } from '@supabase/supabase-js'
@@ -17,8 +17,10 @@ export const [artists] = createResource(async () => await getData("artist_costs"
 export const [rules] = createResource(async () => await getData("rules"), { storage: x => { const [signal, setSignal] = makePersisted(createSignal(x), { storage: localforage }); return [signal, setSignal] } });
 export const [events] = createResource(async () => await getData("events"), { storage: x => { const [signal, setSignal] = makePersisted(createSignal(x), { storage: localforage }); return [signal, setSignal] } });
 export const [leaderboard] = createResource(async () => await getData("leaderboard"), { storage: x => { const [signal, setSignal] = makePersisted(createSignal(x), { storage: localforage }); return [signal, setSignal] } });
-const [teams] = createResource(getData.bind(null, "team"));
+export const [localTeamName, setLocalTeamName] = makePersisted(createSignal(""));
 
+const [teams] = createResource(getData.bind(null, "team"));
+export const remoteTeam = createMemo((t: any[] | undefined) => (t ?? []).map(x => x.artist_id).concat(Array(5 - (t?.length ?? 0)).fill(null)), teams());
 
 export function getArtistById(id: number | null): Artist | null {
   if (!id) {
@@ -29,8 +31,6 @@ export function getArtistById(id: number | null): Artist | null {
 async function getData(table: string): Promise<Array<any>> {
   return (await supabase.from(table).select()).data ?? [];
 }
-
-export const remoteTeam = createMemo((t: any[] | undefined) => (t ?? []).map(x => x.artist_id).concat(Array(5 - (t?.length ?? 0)).fill(null)), teams());
 
 export const localTeam = createMemo(() => {
   let resultingTeam: Array<number | null> = [];
@@ -47,4 +47,3 @@ export const localTeam = createMemo(() => {
   });
   return resultingTeam;
 },);
-
